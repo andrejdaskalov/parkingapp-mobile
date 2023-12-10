@@ -15,7 +15,7 @@ class MainPage extends StatelessWidget {
         title: const Text("ParkMe"),
         backgroundColor: Colors.transparent,
       ),
-      // body: ,
+      body: const Text("hello world"),
     );
   }
 }
