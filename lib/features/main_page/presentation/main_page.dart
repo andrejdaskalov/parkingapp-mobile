@@ -6,6 +6,22 @@ class MainPage extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
 
+     var marker = <Marker>[];
+     
+     marker = [
+       Marker(
+         point: LatLng(42.0041,21.4095),
+         width: 80,
+         height: 80,
+         child: Icon(Icons.location_on, color: Colors.red),
+       ),Marker(
+         point: LatLng(42.0035,21.4168),
+         width: 80,
+         height: 80,
+         child: Icon(Icons.location_on, color: Colors.green),
+       )
+     ];
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -34,14 +50,7 @@ class MainPage extends StatelessWidget {
                         subdomains: ['a','b','c'],
                       ),
                       MarkerLayer(
-                          markers: [
-                            Marker(
-                                point: LatLng(41.99646,21.43141),
-                                width: 80,
-                                height: 80,
-                                child: Icon(Icons.location_on, color: Colors.red),
-                            ),
-                          ],
+                          markers: marker,
                       ),
                     ],
 
