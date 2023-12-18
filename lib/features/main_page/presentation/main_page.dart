@@ -5,10 +5,7 @@ import 'package:latlong2/latlong.dart';
 class MainPage extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
-
-     var marker = <Marker>[];
-     
-     marker = [
+     var marker = <Marker>[
        Marker(
          point: LatLng(42.0041,21.4095),
          width: 80,
@@ -43,6 +40,10 @@ class MainPage extends StatelessWidget {
                     options: MapOptions(
                       initialCenter: LatLng(41.99646,21.43141),
                       initialZoom: 13,
+                      interactionOptions: InteractionOptions(
+                        enableMultiFingerGestureRace: true,
+                        rotationThreshold: 20.0,
+                      )
                      ),
                     children: [
                       TileLayer(
