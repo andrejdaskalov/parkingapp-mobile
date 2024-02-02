@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:parkingapp/core/repository/parking_repository.dart';
+
+import '../../../core/dependency_injection/injectable_config.dart';
+
 
 class MainPage extends StatelessWidget {
+  MainPage({super.key});
+
+  final ParkingRepository parkingRepository = getIt<ParkingRepository>();
+
    @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +23,8 @@ class MainPage extends StatelessWidget {
         title: const Text("ParkMe"),
         backgroundColor: Colors.transparent,
       ),
-      body: const Text("hello world"),
+      body: Text(parkingRepository.listParkings().toString()),
+
     );
   }
 }
