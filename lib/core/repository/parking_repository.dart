@@ -8,7 +8,7 @@ class ParkingRepository {
   final ParkingApi _parkingApi;
   ParkingRepository(this._parkingApi);
 
-  List<ParkingPlace> listParkings() {
+  Future<List<ParkingPlace>> listParkings() {
     return _parkingApi.listParkings();
   }
 

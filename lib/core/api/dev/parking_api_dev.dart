@@ -8,7 +8,8 @@ import '../parking_api.dart';
 @Injectable(as: ParkingApi)
 class ParkingApiDev implements ParkingApi {
   @override
-  List<ParkingPlace> listParkings() {
+  Future<List<ParkingPlace>> listParkings() async {
+    await Future.delayed(const Duration(milliseconds: 500));
     return [
       const ParkingPlace(
         Uuid(),
