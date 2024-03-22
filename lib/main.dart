@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkingapp/features/main_page/presentation/main_page.dart';
-import 'core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
 import 'package:flutter/services.dart';
 
 void main() {
