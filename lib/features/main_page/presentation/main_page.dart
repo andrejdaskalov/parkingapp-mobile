@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkingapp/core/domain/parking.dart';
 import 'package:parkingapp/core/repository/parking_repository.dart';
 
-import '../../../core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
 import 'bloc/main_page_bloc.dart';
 
 class MainPage extends StatelessWidget {

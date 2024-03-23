@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
 import 'package:flutter/services.dart';
 
 void main() {
