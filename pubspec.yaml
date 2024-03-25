@@ -50,6 +50,8 @@ dependencies:
   equatable: ^2.0.5
   # uuid
   uuid: ^4.2.2
+  # routing
+  go_router: ^13.2.1
 
 
 

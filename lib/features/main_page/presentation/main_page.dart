@@ -15,17 +15,11 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.map), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          ],
-        ),
         appBar: AppBar(
-          title: const Text("ParkMe"),
+          title: const Text("ParkWise"),
           backgroundColor: Colors.transparent,
         ),
+        extendBodyBehindAppBar: true,
         body: Stack(
           children: [
             Container(
