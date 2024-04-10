@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkingapp/core/domain/parking.dart';
-import 'package:parkingapp/core/repository/parking_repository.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
 import 'bloc/main_page_bloc.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +31,7 @@ class MainPage extends StatelessWidget {
                       },
                       child: BlocBuilder<MainPageBloc, MainPageState>(
                         builder: (context, state) {
+
                           var markers = <Marker>[];
                           if (state.status == Status.loaded) {
                             markers = state.places
