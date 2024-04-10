@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+import 'package:parkingapp/core/service/sms.dart';
+
 import 'features/theme/themes.dart';
 
 void main() async {
@@ -17,6 +19,12 @@ void main() async {
   String environment = appFlavor.toString();
   configureDependencies(environment);
   runApp(const MyApp());
+
+  // SMS sms = SMS();
+  // String message = "¡Hola amigos!";
+  // String recipient = "078461685";
+  //
+  // sms.sendSms(message, recipient);
 }
 
 class MyApp extends StatelessWidget {

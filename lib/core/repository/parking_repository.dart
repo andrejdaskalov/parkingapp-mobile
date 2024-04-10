@@ -18,6 +18,6 @@ class ParkingRepository {
       parkingPlaces = Future.value(parkingPlaceList);
     });
 
-    return parkingPlaces;
+    return Future.value([]);
   }
 }

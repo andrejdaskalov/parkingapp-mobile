@@ -829,6 +829,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0+1"
+  telephony_sms:
+    dependency: "direct main"
+    description:
+      name: telephony_sms
+      sha256: c35b242147efbee08d77fc5be7d772dea3873a27679bd1d5a5f3e866865d9582
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   term_glyph:
     dependency: transitive
     description:
