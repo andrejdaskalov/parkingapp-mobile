@@ -52,6 +52,7 @@ dependencies:
   uuid: ^4.2.2
   # routing
   go_router: ^13.2.1
+  shared_preferences: ^2.2.2
 
 
 
