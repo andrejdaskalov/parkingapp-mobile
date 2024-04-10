@@ -52,6 +52,9 @@ dependencies:
   uuid: ^4.2.2
   # routing
   go_router: ^13.2.1
+  firebase_core: ^2.27.0
+  cloud_firestore: ^4.15.8
+  firebase_auth: ^4.17.8
 
 
 

@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 
 import '../api/parking_api.dart';
-import '../domain/parking.dart';
+import '../domain/model/parking.dart';
 
 @injectable
 class ParkingRepository {

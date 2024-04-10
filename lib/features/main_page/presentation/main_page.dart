@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkingapp/core/domain/parking.dart';
-import 'package:parkingapp/core/repository/parking_repository.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
 import 'bloc/main_page_bloc.dart';
