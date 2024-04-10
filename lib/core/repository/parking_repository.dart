@@ -12,4 +12,8 @@ class ParkingRepository {
     return _parkingApi.listParkings();
   }
 
+  Future<ParkingPlace> getParking(String id) {
+    return _parkingApi.getParking(id);
+  }
+
 }

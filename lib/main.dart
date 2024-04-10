@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    double topMargin = MediaQuery.of(context).padding.top;
     return MaterialApp.router(
             routerConfig: GoRouter(routes: [
           ShellRoute(
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
                 );
               },
               routes: [
-                GoRoute(path: "/", builder: (context, state) => MainPage())
+                GoRoute(path: "/", builder: (context, state) => MainPage()),
               ]),
 
         ]),

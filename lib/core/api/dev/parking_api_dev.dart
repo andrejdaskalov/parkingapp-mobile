@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:parkingapp/core/domain/parking.dart';
 import 'package:uuid/uuid.dart';
@@ -19,7 +20,7 @@ class ParkingApiDev implements ParkingApi {
         'Municipality 1',
         [Location(0, 0)],
         ParkingType.free,
-        'Zone 1',
+        '1',
         'https://via.placeholder.com/150',
       ),
       const ParkingPlace(
@@ -29,8 +30,8 @@ class ParkingApiDev implements ParkingApi {
         Location(42.005184, 21.422498),
         'Municipality 2',
         [Location(0, 0)],
-        ParkingType.zoned,
-        'Zone 2',
+        ParkingType.free,
+        '2',
         'https://via.placeholder.com/150',
       ),
       const ParkingPlace(
@@ -41,10 +42,28 @@ class ParkingApiDev implements ParkingApi {
         'Municipality 3',
         [Location(0, 0)],
         ParkingType.private,
-        'Zone 3',
+        '3',
         'https://via.placeholder.com/150',
       ),
     ];
   }
+
+  @override
+   Future<ParkingPlace>  getParking(String id) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+    return ParkingPlace(
+      Uuid(),
+      'Parking 3',
+      'Address 3',
+      Location(41.980512, 21.470543),
+      'Municipality 3',
+      [Location(0, 0)],
+      ParkingType.private,
+      '3',
+      'https://via.placeholder.com/150',
+    );
+  }
+
+
 
 }

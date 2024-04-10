@@ -5,7 +5,7 @@ final lightTheme = ColorScheme.light(
   primary: Color(0xFF0093FF),
   secondary: Color(0xFFCBECFB),
   surface: Color(0xFFB0DBFB),
-  background: Color(0xFFEEEDED),
+  background: Color(0xFFF8F8F8),
   error: Color(0xFFB60D1E),
   onPrimary: Color(0xFFDEE9F6),
   onSecondary: Color(0xFF231F20),
