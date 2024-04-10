@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
                   bottomNavigationBar: NavBar(
                     onRouteChanged: (String route) {
                       // context.goNamed(route); TODO: uncomment after giving valid routes
+
                     },
                   ),
                   extendBody: true,

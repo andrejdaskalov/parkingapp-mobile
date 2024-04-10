@@ -52,6 +52,8 @@ dependencies:
   uuid: ^4.2.2
   # routing
   go_router: ^13.2.1
+  #search bar
+  easy_search_bar: ^2.5.0
 
 
 

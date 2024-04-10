@@ -14,6 +14,7 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,12 +41,13 @@ class _NavBarState extends State<NavBar> {
           );
         }).toList(),
         onTap: (index) {
-          // Handle navigation
+
           widget.onRouteChanged.call(navbarItems[index].route);
           setState(() {
             _selectedIndex = index;
           });
-        },
+          }
+        ,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Theme.of(context).colorScheme.primary,
