@@ -14,7 +14,22 @@ class ParkingApiProd implements ParkingApi {
 
   @override
   Future<List<ParkingPlaceNetwork>> listParkings() {
-    return parkingPlaces.get().then((value) => value.docs.map((e) => ParkingPlaceNetwork.fromJson(e.data() as Map<String, dynamic>)).toList());
+    return parkingPlaces.get().then((value) => value.docs.map((e) {
+      var data = e.data() as Map<String, dynamic>;
+      data['document_id'] = e.id;
+
+      return ParkingPlaceNetwork.fromJson(data);
+    }).toList());
+  }
+
+  @override
+  Future<ParkingPlaceNetwork> getParking(String documentId) {
+    return parkingPlaces.doc(documentId).get().then((value) {
+      var data = value.data() as Map<String, dynamic>;
+      data['document_id'] = value.id;
+
+      return ParkingPlaceNetwork.fromJson(data);
+    });
   }
 
 }

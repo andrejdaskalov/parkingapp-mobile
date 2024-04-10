@@ -55,7 +55,7 @@ class ParkingPlaceNetwork extends Equatable {
 
   @override
   toString() =>
-      "ParkingPlace($document_id, $parking_address, $parking_coordinates, $parking_id, $parking_name, $parking_price_per_extra_hour, $parking_price_per_hour, $parking_spots_count, $parking_spots_for_bicycles_count, $parking_spots_for_busses_count, $parking_spots_for_disabled_count, $parking_spots_for_electric_vehicles_count, $parking_spots_for_motorcycles_count, $parking_spots_for_taxi_count, $parking_spots_for_trucks_count, $parking_zone)";
+      "ParkingPlaceNetwork($document_id, $parking_address, $parking_coordinates, $parking_id, $parking_name, $parking_price_per_extra_hour, $parking_price_per_hour, $parking_spots_count, $parking_spots_for_bicycles_count, $parking_spots_for_busses_count, $parking_spots_for_disabled_count, $parking_spots_for_electric_vehicles_count, $parking_spots_for_motorcycles_count, $parking_spots_for_taxi_count, $parking_spots_for_trucks_count, $parking_zone)";
 
   factory ParkingPlaceNetwork.fromJson(Map<String, dynamic> json) {
     return ParkingPlaceNetwork(

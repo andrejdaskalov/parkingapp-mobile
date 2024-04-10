@@ -48,4 +48,27 @@ class ParkingApiDev implements ParkingApi {
     ];
   }
 
+  @override
+  Future<ParkingPlaceNetwork> getParking(String documentId) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    return const ParkingPlaceNetwork(
+      'Address 1',
+      null,
+      'Parking 1',
+      'Parking 1',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      'Zone 1',
+      'f209a7b0-0b7d-11ec-9a03-0242ac130003',
+    );
+  }
+
 }

@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 import 'location.dart';
 
 class ParkingPlace extends Equatable {
-  final Uuid id;
+  final String id;
   final String name;
   final String address;
   final Location location;
@@ -13,20 +13,23 @@ class ParkingPlace extends Equatable {
   final ParkingType type;
   final String? zone;
   final String? imageUrl;
+  final int? pricePerHour;
+  final int? occupiedPercentage;
   // TODO: add pricing field
 
   const ParkingPlace(this.id, this.name, this.address, this.location,
-      this.municipality, this.areaPoints, this.type, this.zone, this.imageUrl);
+      this.municipality, this.areaPoints, this.type, this.zone, this.imageUrl,
+      this.pricePerHour, this.occupiedPercentage);
 
   @override
   List<Object?> get props => [id];
 
   @override
-  toString() => "ParkingPlace($id, $name, $address, $location, $municipality, $areaPoints, $type, $zone, $imageUrl)";
+  toString() => "ParkingPlace($id, $name, $address, $location, $municipality, $areaPoints, $type, $zone, $imageUrl, $pricePerHour, $occupiedPercentage)";
 
   factory ParkingPlace.fromNetwork(ParkingPlaceNetwork network) {
     return ParkingPlace(
-      Uuid(),
+      network.document_id,
       network.parking_name ?? '',
       network.parking_address ?? '',
       Location(
@@ -35,9 +38,11 @@ class ParkingPlace extends Equatable {
       ),
       network.parking_zone ?? '',
       [],
-      ParkingType.free,
+      (network.parking_price_per_hour ?? 0) > 0 ? ParkingType.zoned : ParkingType.free,
       network.parking_zone,
       '',
+      network.parking_price_per_hour ?? 0,
+      66,
     );
   }
 }

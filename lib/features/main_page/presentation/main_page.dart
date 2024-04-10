@@ -9,7 +9,6 @@ import 'bloc/main_page_bloc.dart';
 class MainPage extends StatelessWidget {
   MainPage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +31,7 @@ class MainPage extends StatelessWidget {
                       },
                       child: BlocBuilder<MainPageBloc, MainPageState>(
                         builder: (context, state) {
+
                           var markers = <Marker>[];
                           if (state.status == Status.loaded) {
                             markers = state.places
