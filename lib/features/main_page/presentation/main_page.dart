@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkingapp/core/domain/parking.dart';
-import 'package:parkingapp/core/repository/parking_repository.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
 import 'package:parkingapp/features/details/presentation/details_card.dart';
@@ -41,6 +39,7 @@ class _MainPageState extends State<MainPage> {
                       },
                       child: BlocBuilder<MainPageBloc, MainPageState>(
                         builder: (context, state) {
+
                           var markers = <Marker>[];
                           if (state.status == Status.loaded) {
                             markers = state.places
