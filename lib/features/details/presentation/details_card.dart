@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:parkingapp/features/common_ui/buttons.dart';
+import 'package:parkingapp/features/common_ui/headings.dart';
 
 import '../../../core/domain/parking.dart';
 
@@ -30,27 +32,28 @@ class DetailsCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(place.name, style: TextStyle(fontSize: 29, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onBackground),),
-                      Text(place.address, style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onBackground),),
-                      Text(place.type.name + " паркинг", style: TextStyle(fontSize: 19, fontWeight: FontWeight.normal, color: Theme.of(context).colorScheme.onBackground),),
+                      TitleHeading(text: place.name),
+                      BoldHeading(text: place.address),
+                      SubtitleHeading(text: place.type.name + " паркинг"),
                     ],
                   ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      IconButton(onPressed: () {
+                        onDismiss();
+                      }, icon: Icon(Icons.close),),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Зона", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff144160)),),
-                          Text(place.zone ?? "", style: TextStyle(fontSize: 29, fontWeight: FontWeight.bold, color: Color(0xff144160)),)
+                          ZoneLabel(text: "Зона"),
+                          ZoneHeading(text: place.zone.toString()),
                         ],
                       ),
-                      IconButton(onPressed: () {
-                        onDismiss();
-                      }, icon: Icon(Icons.close),)
+
                     ],
                   ),
 
@@ -59,12 +62,10 @@ class DetailsCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(onPressed: () {
-                    onPay();
-                  }, child: Text("Започни паркинг"),
-                  )
+                  PrimaryButtonWithIcon(icon: Icons.local_parking, text: "Започни паркинг", onPressed: onPay)
                 ],
-              )
+              ),
+
 
             ],
           ),

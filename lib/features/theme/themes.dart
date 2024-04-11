@@ -26,3 +26,11 @@ final darkTheme = ColorScheme.dark(
   onBackground: Color(0xFFB5C9D5),
   onError: Color(0xFFF4C6C6),
 );
+
+extension OuroByteLightTheme on ColorScheme {
+  Color get zoneColor => Color(0xff144160);
+}
+
+extension OuroByteDarkTheme on ColorScheme {
+  Color get zoneColor => Color(0xff1f73ab);
+}
