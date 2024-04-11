@@ -9,6 +9,10 @@ class SMS {
   void sendSms(String message, String recipient) async {
     await _telephonySMS.requestPermission();
 
-    await _telephonySMS.sendSMS(phone: recipient, message: message);
+    await _telephonySMS.sendSMS(phone: recipient, message: message).then((value) {
+      print("SMS sent");
+    }).catchError((error) {
+      print("Error sending SMS: $error");
+    });
   }
 }
