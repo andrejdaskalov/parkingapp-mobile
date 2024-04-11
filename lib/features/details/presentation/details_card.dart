@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:parkingapp/features/common_ui/buttons.dart';
 import 'package:parkingapp/features/common_ui/headings.dart';
 
-import '../../../core/domain/parking.dart';
+import '../../../core/domain/model/parking.dart';
+
 
 class DetailsCard extends StatelessWidget {
   final ParkingPlace place;
@@ -65,8 +66,6 @@ class DetailsCard extends StatelessWidget {
                   PrimaryButtonWithIcon(icon: Icons.local_parking, text: "Започни паркинг", onPressed: onPay)
                 ],
               ),
-
-
             ],
           ),
         )

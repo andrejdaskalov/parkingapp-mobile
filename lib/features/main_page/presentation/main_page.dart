@@ -4,7 +4,10 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/service/sms.dart';
 import 'package:parkingapp/features/details/presentation/details_card.dart';
+import '../../../core/domain/model/parking.dart';
+import '../../registration_dialog/dialog.dart';
 import 'bloc/main_page_bloc.dart';
 
 class MainPage extends StatefulWidget {
@@ -46,9 +49,9 @@ class _MainPageState extends State<MainPage> {
                                 .map((e) => Marker(
                                       point: LatLng(e.location.latitude,
                                           e.location.longitude),
-                                      width: 80,
-                                      height: 80,
-                                      child: IconButton.filled(
+                                      width: 100,
+                                      height: 100,
+                                       child: IconButton.filled(
                                         style: ButtonStyle(
                                           backgroundColor:
                                               MaterialStateProperty.all(
@@ -64,10 +67,11 @@ class _MainPageState extends State<MainPage> {
                                       ),
                                     ))
                                 .toList();
+
                           }
                           return FlutterMap(
                             options: MapOptions(
-                                initialCenter: LatLng(41.99646, 21.43141),
+                                initialCenter: LatLng(41.99646, 21.43141), //TODO: change to user location
                                 initialZoom: 13,
                                 interactionOptions: InteractionOptions(
                                   enableMultiFingerGestureRace: true,
@@ -102,7 +106,7 @@ class _MainPageState extends State<MainPage> {
                           place = null;
                         });
                       }, onPay: () {
-                        //pay here
+                        this._showDialog();
                   },),
                 );
               } else {
@@ -111,5 +115,17 @@ class _MainPageState extends State<MainPage> {
             }),
           ],
         ));
+  }
+
+  void _showDialog() {
+    showDialog(context: this.context, builder: (context) {
+      return RegistrationDialog(
+        title: "Регистрација",
+        message: "Внесете регистрација",
+        sendSMS: (message, recipient) {
+          getIt.get<SMS>().sendSms(message + " " + place!.zone.toString(), "078300129");
+        },
+      );
+    });
   }
 }
