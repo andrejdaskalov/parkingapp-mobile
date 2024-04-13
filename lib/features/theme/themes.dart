@@ -5,7 +5,7 @@ final lightTheme = ColorScheme.light(
   primary: Color(0xFF0093FF),
   secondary: Color(0xFFCBECFB),
   surface: Color(0xFFB0DBFB),
-  background: Color(0xFFEEEDED),
+  background: Color(0xFFF8F8F8),
   error: Color(0xFFB60D1E),
   onPrimary: Color(0xFFDEE9F6),
   onSecondary: Color(0xFF231F20),
@@ -26,3 +26,11 @@ final darkTheme = ColorScheme.dark(
   onBackground: Color(0xFFB5C9D5),
   onError: Color(0xFFF4C6C6),
 );
+
+extension OuroByteLightTheme on ColorScheme {
+  Color get zoneColor => Color(0xff144160);
+}
+
+extension OuroByteDarkTheme on ColorScheme {
+  Color get zoneColor => Color(0xff1f73ab);
+}

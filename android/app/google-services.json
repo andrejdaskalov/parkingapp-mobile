@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "557435203705",
+    "project_id": "ourobyte-cab45",
+    "storage_bucket": "ourobyte-cab45.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557435203705:android:6ab41190804e8cc5e164a8",
+        "android_client_info": {
+          "package_name": "com.ourobyte.parkingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVetjJGcn-xZ8zFywuVFuoigS-cRuwhOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

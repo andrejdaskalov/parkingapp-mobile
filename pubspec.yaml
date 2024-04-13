@@ -53,6 +53,11 @@ dependencies:
   # routing
   go_router: ^13.2.1
   shared_preferences: ^2.2.2
+  firebase_core: ^2.27.0
+  cloud_firestore: ^4.15.8
+  firebase_auth: ^4.17.8
+
+  telephony_sms: ^0.0.4
 
 
 

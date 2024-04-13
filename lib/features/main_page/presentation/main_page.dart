@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkingapp/core/domain/parking.dart';
-import 'package:parkingapp/core/repository/parking_repository.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/service/sms.dart';
+import 'package:parkingapp/features/details/presentation/details_card.dart';
+import '../../../core/domain/model/parking.dart';
+import '../../registration_dialog/dialog.dart';
 import 'package:parkingapp/features/parking_payment/presentation/stop_parking_button.dart';
 import '../../parking_payment/presentation/stop_parking_dialog.dart';
 import '../../parking_payment/service/payment_service.dart';
@@ -19,7 +21,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final PaymentService paymentService = getIt<PaymentService>();
+  ParkingPlace? place;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,20 +68,36 @@ class _MainPageState extends State<MainPage> {
                       },
                       child: BlocBuilder<MainPageBloc, MainPageState>(
                         builder: (context, state) {
+
                           var markers = <Marker>[];
                           if (state.status == Status.loaded) {
                             markers = state.places
                                 .map((e) => Marker(
-                              point: LatLng(e.location.latitude, e.location.longitude),
-                              width: 80,
-                              height: 80,
-                              child: Icon(Icons.location_on, color: Colors.red),
-                            ))
+                                      point: LatLng(e.location.latitude,
+                                          e.location.longitude),
+                                      width: 100,
+                                      height: 100,
+                                       child: IconButton.filled(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white.withOpacity(0.0)),
+                                        ),
+                                        icon: Icon(Icons.location_on,
+                                            color: Colors.red),
+                                        onPressed: () {
+                                          setState(() {
+                                            place = e;
+                                          });
+                                        },
+                                      ),
+                                    ))
                                 .toList();
+
                           }
                           return FlutterMap(
                             options: MapOptions(
-                                initialCenter: LatLng(41.99646, 21.43141),
+                                initialCenter: LatLng(41.99646, 21.43141), //TODO: change to user location
                                 initialZoom: 13,
                                 interactionOptions: InteractionOptions(
                                   enableMultiFingerGestureRace: true,
@@ -87,7 +106,7 @@ class _MainPageState extends State<MainPage> {
                             children: [
                               TileLayer(
                                 urlTemplate:
-                                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                                    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                                 subdomains: ['a', 'b', 'c'],
                               ),
                               MarkerLayer(
@@ -102,7 +121,37 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
+            Builder(builder: (context) {
+              if (place != null) {
+                return Container(
+                  margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                  child: DetailsCard(
+                      place: place!,
+                      onDismiss: () {
+                        setState(() {
+                          place = null;
+                        });
+                      }, onPay: () {
+                        this._showDialog();
+                  },),
+                );
+              } else {
+                return Container();
+              }
+            }),
           ],
         ));
+  }
+
+  void _showDialog() {
+    showDialog(context: this.context, builder: (context) {
+      return RegistrationDialog(
+        title: "Регистрација",
+        message: "Внесете регистрација",
+        sendSMS: (message, recipient) {
+          getIt.get<SMS>().sendSms(message + " " + place!.zone.toString(), recipient);
+        },
+      );
+    });
   }
 }
