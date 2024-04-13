@@ -6,12 +6,20 @@ import 'package:parkingapp/core/domain/parking.dart';
 import 'package:parkingapp/core/repository/parking_repository.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/features/parking_payment/presentation/stop_parking_button.dart';
+import '../../parking_payment/presentation/stop_parking_dialog.dart';
+import '../../parking_payment/service/payment_service.dart';
 import 'bloc/main_page_bloc.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   MainPage({super.key});
 
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
 
+class _MainPageState extends State<MainPage> {
+  final PaymentService paymentService = getIt<PaymentService>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +28,29 @@ class MainPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
+        floatingActionButton: FutureBuilder(
+            future: paymentService.getCurrentlyPayingParking(),
+          initialData: "",
+          builder: (context, snapshot) {
+            if (snapshot.data == null) {
+              return const SizedBox.shrink();
+            }
+            return Padding(
+            padding: MediaQuery.of(context).padding + const EdgeInsets.only(bottom: 80.0),
+            child: StopParkingButton(onPressed: () async {
+              showDialog(context: context, builder: (context) => StopParkingDialog(onStop: () async {
+                paymentService.clearCurrentlyPayingParking();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Паркингот е успешно прекинат!'),
+                  duration: const Duration(seconds: 2),
+                ));
+                await paymentService.clearCurrentlyPayingParking();
+              },));
+            }),
+          );
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Stack(
           children: [
             Container(

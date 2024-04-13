@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parkingapp/features/navbar/navbar.dart';
 import 'package:parkingapp/features/main_page/presentation/main_page.dart';
-import 'package:parkingapp/features/stop_button/stop_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/dependency_injection/injectable_config.dart';
@@ -21,17 +20,12 @@ void main() async {
 
   String environment = appFlavor.toString();
   configureDependencies(environment);
-  runApp(MyApp(currentlyPayingParking: currentlyPayingParking, prefs: prefs));
+  runApp(MyApp());
 
 
 }
 
 class MyApp extends StatelessWidget {
-  final String? currentlyPayingParking;
-  final SharedPreferences prefs;
-
-
-  const MyApp({Key? key, this.currentlyPayingParking, required this.prefs}) : super(key: key);
 
 
   // This widget is the root of your application.
@@ -49,16 +43,6 @@ class MyApp extends StatelessWidget {
                   },
                 ),
                 extendBody: true,
-                floatingActionButton: currentlyPayingParking != null
-                    ? StopButton(
-
-                  onPressed: () async {
-                    // Delete the value from shared preferences.
-                    // await prefs.remove('currentlyPayingParking');
-                  },
-                )
-                    : null,
-                floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
               );
             },
             routes: [
