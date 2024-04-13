@@ -19,8 +19,6 @@ void main() async {
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('currentlyPayingParking', 'AB1234CD');
-  // Check if there is a value stored in 'currentlyPayingParking'.
-  final String? currentlyPayingParking = prefs.getString('currentlyPayingParking');
 
   String environment = appFlavor.toString();
   configureDependencies(environment);
