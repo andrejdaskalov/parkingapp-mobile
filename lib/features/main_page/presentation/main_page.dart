@@ -4,10 +4,21 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/service/sms.dart';
+import 'package:parkingapp/features/details/presentation/details_card.dart';
+import '../../../core/domain/model/parking.dart';
+import '../../registration_dialog/dialog.dart';
 import 'bloc/main_page_bloc.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  ParkingPlace? place;
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +47,31 @@ class MainPage extends StatelessWidget {
                           if (state.status == Status.loaded) {
                             markers = state.places
                                 .map((e) => Marker(
-                              point: LatLng(e.location.latitude, e.location.longitude),
-                              width: 80,
-                              height: 80,
-                              child: Icon(Icons.location_on, color: Colors.red),
-                            ))
+                                      point: LatLng(e.location.latitude,
+                                          e.location.longitude),
+                                      width: 100,
+                                      height: 100,
+                                       child: IconButton.filled(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white.withOpacity(0.0)),
+                                        ),
+                                        icon: Icon(Icons.location_on,
+                                            color: Colors.red),
+                                        onPressed: () {
+                                          setState(() {
+                                            place = e;
+                                          });
+                                        },
+                                      ),
+                                    ))
                                 .toList();
+
                           }
                           return FlutterMap(
                             options: MapOptions(
-                                initialCenter: LatLng(41.99646, 21.43141),
+                                initialCenter: LatLng(41.99646, 21.43141), //TODO: change to user location
                                 initialZoom: 13,
                                 interactionOptions: InteractionOptions(
                                   enableMultiFingerGestureRace: true,
@@ -54,7 +80,7 @@ class MainPage extends StatelessWidget {
                             children: [
                               TileLayer(
                                 urlTemplate:
-                                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                                    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                                 subdomains: ['a', 'b', 'c'],
                               ),
                               MarkerLayer(
@@ -69,7 +95,37 @@ class MainPage extends StatelessWidget {
                 ],
               ),
             ),
+            Builder(builder: (context) {
+              if (place != null) {
+                return Container(
+                  margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                  child: DetailsCard(
+                      place: place!,
+                      onDismiss: () {
+                        setState(() {
+                          place = null;
+                        });
+                      }, onPay: () {
+                        this._showDialog();
+                  },),
+                );
+              } else {
+                return Container();
+              }
+            }),
           ],
         ));
+  }
+
+  void _showDialog() {
+    showDialog(context: this.context, builder: (context) {
+      return RegistrationDialog(
+        title: "Регистрација",
+        message: "Внесете регистрација",
+        sendSMS: (message, recipient) {
+          getIt.get<SMS>().sendSms(message + " " + place!.zone.toString(), recipient);
+        },
+      );
+    });
   }
 }

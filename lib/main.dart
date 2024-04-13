@@ -12,7 +12,7 @@ import 'package:parkingapp/core/service/sms.dart';
 import 'features/theme/themes.dart';
 
 void main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -20,16 +20,16 @@ void main() async {
   configureDependencies(environment);
   runApp(const MyApp());
 
-  // SMS sms = SMS();
-  // String message = "¡Hola amigos!";
-  // String recipient = "078461685";
-  //
-  // sms.sendSms(message, recipient);
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
           ShellRoute(
               builder: (context, state, child) {
                 return Scaffold(
+                  resizeToAvoidBottomInset: false,
                   body: child,
                   bottomNavigationBar: NavBar(
                     onRouteChanged: (String route) {
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
                 );
               },
               routes: [
-                GoRoute(path: "/", builder: (context, state) => MainPage())
+                GoRoute(path: "/", builder: (context, state) => MainPage()),
               ]),
 
         ]),
