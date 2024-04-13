@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:parkingapp/core/repository/parking_repository.dart';
+import 'package:parkingapp/core/repository/impl/parking_repository.dart';
 
 import '../../../../core/domain/model/parking.dart';
 

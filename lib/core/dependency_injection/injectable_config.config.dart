@@ -15,7 +15,7 @@ import '../../features/main_page/presentation/bloc/main_page_bloc.dart' as _i7;
 import '../api/dev/parking_api_dev.dart' as _i4;
 import '../api/parking_api.dart' as _i3;
 import '../api/prod/parking_api_prod.dart' as _i5;
-import '../repository/parking_repository.dart' as _i6;
+import '../repository/impl/parking_repository.dart' as _i6;
 
 const String _dev = 'dev';
 const String _prod = 'prod';

@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:parkingapp/core/domain/network_model/parking_place_network.dart';
+import 'package:parkingapp/core/domain/network_model/user_input_network.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/model/location.dart';
 import '../../domain/model/parking.dart';
@@ -69,6 +70,18 @@ class ParkingApiDev implements ParkingApi {
       'Zone 1',
       'f209a7b0-0b7d-11ec-9a03-0242ac130003',
     );
+  }
+
+  @override
+  Future<UserInputNetwork> getUserInput(String documentId) {
+    // TODO: implement getUserInput
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<UserInputNetwork>> listUserInputs() {
+    // TODO: implement listUserInputs
+    throw UnimplementedError();
   }
 
 }
