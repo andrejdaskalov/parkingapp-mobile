@@ -49,7 +49,7 @@ class _PaymentStatusButtonState extends State<PaymentStatusButton> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                  child: Text(state.parkingZone ?? '', 
+                  child: Text(state.parkingZone ?? '',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

@@ -13,6 +13,10 @@ class StopParkingButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.error,
         foregroundColor: Theme.of(context).colorScheme.onError,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       ),
       child: Text('Прекини паркинг'),
     );

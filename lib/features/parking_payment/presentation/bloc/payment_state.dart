@@ -20,5 +20,6 @@ final class PaymentState {
 enum ParkingStatus {
   loading,
   loaded,
+  stopped,
   error,
 }

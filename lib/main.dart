@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parkingapp/features/navbar/navbar.dart';
 import 'package:parkingapp/features/main_page/presentation/main_page.dart';
+import 'package:parkingapp/features/parking_payment/presentation/payment_status_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/dependency_injection/injectable_config.dart';
@@ -19,6 +20,7 @@ void main() async {
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('currentlyPayingParking', 'AB1234CD');
+  await prefs.setString('startTime', DateTime.now().toIso8601String());
 
   String environment = appFlavor.toString();
   configureDependencies(environment);
@@ -55,6 +57,7 @@ class _MyAppState extends State<MyApp> {
               },
               routes: [
                 GoRoute(path: "/", builder: (context, state) => MainPage()),
+                GoRoute(path: "/payment-details", builder: (context, state) => ParkingPaymentDetails()),
               ]),
 
       ]),

@@ -133,3 +133,24 @@ class ZoneLabel extends StatelessWidget {
         overflow: TextOverflow.ellipsis);
   }
 }
+
+class LargeBoldHeading extends StatelessWidget {
+  final String text;
+
+  const LargeBoldHeading({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3.0),
+      child: TextElement(
+          text: text,
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.start,
+          color: Theme.of(context).colorScheme.onBackground,
+          maxLines: 2,
+          overflow: TextOverflow.visible),
+    );
+  }
+}

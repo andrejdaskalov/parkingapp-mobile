@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,9 +33,14 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
-        floatingActionButton: Padding(
-          padding: MediaQuery.of(context).padding,
-          child: PaymentStatusButton(),
+        floatingActionButton: GestureDetector(
+          onTap: () {
+            context.push('/payment-details');
+          },
+          child: Padding(
+            padding: MediaQuery.of(context).padding,
+            child: PaymentStatusButton(),
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         body: Stack(
