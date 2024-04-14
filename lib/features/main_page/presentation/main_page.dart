@@ -36,7 +36,7 @@ class _MainPageState extends State<MainPage> {
           padding: MediaQuery.of(context).padding,
           child: PaymentStatusButton(),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         body: Stack(
           children: [
             Container(

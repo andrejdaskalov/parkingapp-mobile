@@ -55,7 +55,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         status: ParkingStatus.loaded,
         currentlyPayingParking: parkingPaymentDetails.parkingPlaceId,
         startTime: parkingPaymentDetails.startTime,
-        currentCost: cost));
+        currentCost: cost,
+        parkingZone: parkingPlace.zone
+    ));
   }
 
   double getCost(ParkingPlace parkingPlace, ParkingPaymentDetails parkingPaymentDetails) {

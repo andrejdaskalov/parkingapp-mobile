@@ -25,7 +25,7 @@ class ParkingApiDev implements ParkingApi {
         0,
         0,
         0,
-        'Zone 1',
+        'D42',
         'f209a7b0-0b7d-11ec-9a03-0242ac130003',
       ),
       const ParkingPlaceNetwork(
@@ -43,7 +43,7 @@ class ParkingApiDev implements ParkingApi {
         0,
         0,
         0,
-        'Zone 2',
+        'C2',
         'f209a7b0-0b7d-11ec-9a03-0242ac130003',
       ),
       const ParkingPlaceNetwork(
@@ -61,7 +61,7 @@ class ParkingApiDev implements ParkingApi {
         0,
         0,
         0,
-        'Zone 3',
+        'A3',
         'f209a7b0-0b7d-11ec-9a03-0242ac130003',
       ),
     ];
@@ -85,7 +85,7 @@ class ParkingApiDev implements ParkingApi {
       0,
       0,
       0,
-      'Zone 1',
+      'Z1',
       'f209a7b0-0b7d-11ec-9a03-0242ac130003',
     );
   }

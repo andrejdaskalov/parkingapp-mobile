@@ -45,11 +45,11 @@ class _PaymentStatusButtonState extends State<PaymentStatusButton> {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                  child: Text(state.parkingZone ?? 'D42',
+                  child: Text(state.parkingZone ?? '', 
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
