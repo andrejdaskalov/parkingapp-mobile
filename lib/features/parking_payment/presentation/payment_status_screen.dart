@@ -5,7 +5,6 @@ import 'package:parkingapp/features/common_ui/headings.dart';
 import 'package:parkingapp/features/parking_payment/presentation/bloc/payment_bloc.dart';
 import 'package:parkingapp/features/parking_payment/presentation/stop_parking_button.dart';
 
-import '../../../core/dependency_injection/injectable_config.dart';
 
 class ParkingPaymentDetails extends StatelessWidget {
   @override
@@ -15,16 +14,16 @@ class ParkingPaymentDetails extends StatelessWidget {
       builder: (context, state) {
         if (state.status == ParkingStatus.loading) {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: Center(child: const CircularProgressIndicator()),
           );
         } else if (state.currentlyPayingParking == null) {
           return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+              padding: MediaQuery.of(context).padding + EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
               child: LargeBoldHeading(text: "Нема активен паркинг"));
         } else if (state.status == ParkingStatus.error) {
           return Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: MediaQuery.of(context).padding + EdgeInsets.all(8.0),
               child: LargeBoldHeading(text: state.error ?? "Грешка"));
         } else if (state.status == ParkingStatus.stopped) {
           if (context.canPop()) {
