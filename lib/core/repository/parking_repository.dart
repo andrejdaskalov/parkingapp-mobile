@@ -14,4 +14,10 @@ class ParkingRepository {
       return parkingPlaceNetworkList.map((parkingPlaceNetwork) => ParkingPlace.fromNetwork(parkingPlaceNetwork)).toList();
     });
   }
+
+  Future<ParkingPlace> getParkingPlace(String documentId) async {
+    return _parkingApi.getParking(documentId).then((parkingPlaceNetwork) {
+      return ParkingPlace.fromNetwork(parkingPlaceNetwork);
+    });
+  }
 }

@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/service/prod/sms_prod.dart';
 import 'package:parkingapp/core/service/sms.dart';
 import 'package:parkingapp/features/details/presentation/details_card.dart';
+import 'package:parkingapp/features/parking_payment/presentation/bloc/payment_bloc.dart';
+import 'package:parkingapp/features/parking_payment/presentation/payment_status_button.dart';
 import '../../../core/domain/model/parking.dart';
 import '../../registration_dialog/dialog.dart';
+import 'package:parkingapp/features/parking_payment/presentation/stop_parking_button.dart';
+import '../../parking_payment/presentation/stop_parking_dialog.dart';
+import '../../parking_payment/service/payment_service.dart';
 import 'bloc/main_page_bloc.dart';
 
 class MainPage extends StatefulWidget {
@@ -28,6 +35,16 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
+        floatingActionButton: GestureDetector(
+          onTap: () {
+            context.push('/payment-details');
+          },
+          child: Padding(
+            padding: MediaQuery.of(context).padding,
+            child: PaymentStatusButton(),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         body: Stack(
           children: [
             Container(
@@ -42,7 +59,6 @@ class _MainPageState extends State<MainPage> {
                       },
                       child: BlocBuilder<MainPageBloc, MainPageState>(
                         builder: (context, state) {
-
                           var markers = <Marker>[];
                           if (state.status == Status.loaded) {
                             markers = state.places
@@ -51,11 +67,12 @@ class _MainPageState extends State<MainPage> {
                                           e.location.longitude),
                                       width: 100,
                                       height: 100,
-                                       child: IconButton.filled(
+                                      child: IconButton.filled(
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.white.withOpacity(0.0)),
+                                              MaterialStateProperty.all(Colors
+                                                  .white
+                                                  .withOpacity(0.0)),
                                         ),
                                         icon: Icon(Icons.location_on,
                                             color: Colors.red),
@@ -67,11 +84,11 @@ class _MainPageState extends State<MainPage> {
                                       ),
                                     ))
                                 .toList();
-
                           }
                           return FlutterMap(
                             options: MapOptions(
-                                initialCenter: LatLng(41.99646, 21.43141), //TODO: change to user location
+                                initialCenter: LatLng(41.99646, 21.43141),
+                                //TODO: change to user location
                                 initialZoom: 13,
                                 interactionOptions: InteractionOptions(
                                   enableMultiFingerGestureRace: true,
@@ -98,16 +115,19 @@ class _MainPageState extends State<MainPage> {
             Builder(builder: (context) {
               if (place != null) {
                 return Container(
-                  margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                  margin:
+                      EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                   child: DetailsCard(
-                      place: place!,
-                      onDismiss: () {
-                        setState(() {
-                          place = null;
-                        });
-                      }, onPay: () {
-                        this._showDialog();
-                  },),
+                    place: place!,
+                    onDismiss: () {
+                      setState(() {
+                        place = null;
+                      });
+                    },
+                    onPay: () {
+                      this._showDialog();
+                    },
+                  ),
                 );
               } else {
                 return Container();
@@ -118,14 +138,16 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _showDialog() {
-    showDialog(context: this.context, builder: (context) {
-      return RegistrationDialog(
-        title: "Регистрација",
-        message: "Внесете регистрација",
-        sendSMS: (message, recipient) {
-          getIt.get<SMS>().sendSms(message + " " + place!.zone.toString(), recipient);
-        },
-      );
-    });
+    showDialog(
+        context: this.context,
+        builder: (context) {
+          return RegistrationDialog(
+            title: "Регистрација",
+            message: "Внесете регистрација",
+            sendSMS: (message, recipient) {
+              context.read<PaymentBloc>().add(StartParking(place!, message, recipient));
+            },
+          );
+        });
   }
 }
