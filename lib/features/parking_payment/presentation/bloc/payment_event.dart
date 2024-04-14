@@ -6,8 +6,10 @@ sealed class PaymentEvent {}
 class StartParking extends PaymentEvent {
   final ParkingPlace parkingPlace;
   final DateTime startTime = DateTime.now();
+  final String message;
+  final String recipient;
 
-  StartParking(this.parkingPlace);
+  StartParking(this.parkingPlace, this.message, this.recipient);
 }
 
 class StopParking extends PaymentEvent {

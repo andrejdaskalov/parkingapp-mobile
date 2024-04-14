@@ -5,8 +5,10 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/service/prod/sms_prod.dart';
 import 'package:parkingapp/core/service/sms.dart';
 import 'package:parkingapp/features/details/presentation/details_card.dart';
+import 'package:parkingapp/features/parking_payment/presentation/bloc/payment_bloc.dart';
 import 'package:parkingapp/features/parking_payment/presentation/payment_status_button.dart';
 import '../../../core/domain/model/parking.dart';
 import '../../registration_dialog/dialog.dart';
@@ -143,9 +145,7 @@ class _MainPageState extends State<MainPage> {
             title: "Регистрација",
             message: "Внесете регистрација",
             sendSMS: (message, recipient) {
-              getIt
-                  .get<SMS>()
-                  .sendSms(message + " " + place!.zone.toString(), recipient);
+              context.read<PaymentBloc>().add(StartParking(place!, message, recipient));
             },
           );
         });
