@@ -40,6 +40,14 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     on<StopParking>((event, emit) async {
       emit(PaymentState(status: ParkingStatus.loading));
+      SMSStatus smsStatus = await _smsService.sendSms(
+          "S",
+          event.recipient);
+      if (smsStatus == SMSStatus.error) {
+        emit(PaymentState(
+            status: ParkingStatus.error, error: "Грешка при стопирање на паркингот"));
+        return;
+      }
       await _paymentService.clearCurrentlyPayingParking();
       emit(PaymentState(status: ParkingStatus.stopped));
       await getDetails(event, emit);
