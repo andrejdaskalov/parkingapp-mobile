@@ -14,8 +14,9 @@ class StartParking extends PaymentEvent {
 
 class StopParking extends PaymentEvent {
   final DateTime stopTime = DateTime.now();
+  final String recipient;
 
-  StopParking();
+  StopParking(this.recipient);
 }
 
 class GetParkingDetails extends PaymentEvent {
