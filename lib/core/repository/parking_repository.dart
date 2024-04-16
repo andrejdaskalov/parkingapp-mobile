@@ -1,15 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 
 import '../api/parking_api.dart';
-import '../domain/parking.dart';
+import '../domain/model/parking.dart';
 
 @injectable
 class ParkingRepository {
   final ParkingApi _parkingApi;
   ParkingRepository(this._parkingApi);
 
-  Future<List<ParkingPlace>> listParkings() {
-    return _parkingApi.listParkings();
+  Future<List<ParkingPlace>> listParkings() async {
+    return _parkingApi.listParkings().then((parkingPlaceNetworkList) {
+      return parkingPlaceNetworkList.map((parkingPlaceNetwork) => ParkingPlace.fromNetwork(parkingPlaceNetwork)).toList();
+    });
   }
 
+  Future<ParkingPlace> getParkingPlace(String documentId) async {
+    return _parkingApi.getParking(documentId).then((parkingPlaceNetwork) {
+      return ParkingPlace.fromNetwork(parkingPlaceNetwork);
+    });
+  }
 }

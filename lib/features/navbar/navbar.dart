@@ -34,6 +34,7 @@ class _NavBarState extends State<NavBar> {
       clipBehavior: Clip.antiAlias,
 
       child: BottomNavigationBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         items: navbarItems.map((item) {
           return BottomNavigationBarItem(
             icon: Icon(item.icon),

@@ -1,16 +1,33 @@
+import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkingapp/core/domain/parking.dart';
-import 'package:parkingapp/core/repository/parking_repository.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
-import 'package:parkingapp/features/main_page/appbar/custom_app_bar.dart';
+import 'package:parkingapp/core/service/prod/sms_prod.dart';
+import 'package:parkingapp/core/service/sms.dart';
+import 'package:parkingapp/features/details/presentation/details_card.dart';
+import 'package:parkingapp/features/parking_payment/presentation/bloc/payment_bloc.dart';
+import 'package:parkingapp/features/parking_payment/presentation/payment_status_button.dart';
+import '../../../core/domain/model/parking.dart';
+import '../../registration_dialog/dialog.dart';
+import 'package:parkingapp/features/parking_payment/presentation/stop_parking_button.dart';
+import '../../parking_payment/presentation/stop_parking_dialog.dart';
+import '../../parking_payment/service/payment_service.dart';
 import 'bloc/main_page_bloc.dart';
 
-class MainPage extends StatelessWidget {
-  MainPage({Key? key});
+class MainPage extends StatefulWidget {
+  MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  ParkingPlace? place;
+  bool detailsVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +37,16 @@ class MainPage extends StatelessWidget {
        // Empty list initially
       ),
       extendBodyBehindAppBar: true,
-      body: Stack(
+      floatingActionButton: GestureDetector(
+          onTap: () {
+            context.push('/payment-details');
+          },
+          child: Padding(
+            padding: MediaQuery.of(context).padding,
+            child: PaymentStatusButton(),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,body: Stack(
         children: [
           Container(
             child: Column(
@@ -41,10 +67,25 @@ class MainPage extends StatelessWidget {
                               .map(
                                 (e) => Marker(
                               point: LatLng(e.location.latitude, e.location.longitude),
-                              width: 80,
-                              height: 80,
-                              child: Icon(Icons.location_on, color: Colors.red),
-                            ),
+                              width: 100,
+                                      height: 100,
+                                      child: IconButton.filled(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(Colors
+                                                  .white
+                                                  .withOpacity(0.0)),
+                                        ),
+                                        icon: Icon(Icons.location_on,
+                                            color: Colors.red),
+                                        onPressed: () {
+                                          setState(() {
+                                            place = e;
+                                            detailsVisible = true;
+                                          });
+                                        },
+                                      ),
+                                    ),
                           )
                               .toList();
 
@@ -53,7 +94,7 @@ class MainPage extends StatelessWidget {
                         }
                         return FlutterMap(
                           options: MapOptions(
-                            initialCenter: LatLng(41.99646, 21.43141),
+                            initialCenter: LatLng(41.99646, 21.43141),//TODO: change to user location
                             initialZoom: 13,
                             interactionOptions: InteractionOptions(
                               enableMultiFingerGestureRace: true,
@@ -70,15 +111,58 @@ class MainPage extends StatelessWidget {
                             ),
                           ],
                         );
-                      },
+                      },),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+            Builder(
+              builder: (context) {
+                if (!detailsVisible) {
+                  return Container();
+                }
+                return Container(
+                    margin:
+                        EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                    child: Entry.offset(
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                      yOffset: -1000,
+                      visible: detailsVisible,
+                      child: DetailsCard(
+                        place: place,
+                        onDismiss: () {
+                          setState(() {
+                            detailsVisible = false;
+                          });
+                        },
+                        onPay: () {
+                          this._showDialog();
+                    },
+                  ),
+                ),
+              );
+            }
           ),
         ],
       ),
     );
+  }
+
+  void _showDialog() {
+    showDialog(
+        context: this.context,
+        builder: (context) {
+          return RegistrationDialog(
+            title: "Регистрација",
+            message: "Внесете регистрација",
+            sendSMS: (message, recipient) {
+              context
+                  .read<PaymentBloc>()
+                  .add(StartParking(place!, message, recipient));
+            },
+          );
+        });
   }
 }
