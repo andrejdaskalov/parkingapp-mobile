@@ -58,6 +58,7 @@ dependencies:
   firebase_auth: ^4.17.8
 
   telephony_sms: ^0.0.4
+  entry: ^1.0.0
 
 
 

@@ -1,3 +1,4 @@
+import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   ParkingPlace? place;
+  bool detailsVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +81,7 @@ class _MainPageState extends State<MainPage> {
                                         onPressed: () {
                                           setState(() {
                                             place = e;
+                                            detailsVisible = true;
                                           });
                                         },
                                       ),
@@ -112,27 +115,34 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
-            Builder(builder: (context) {
-              if (place != null) {
+            Builder(
+              builder: (context) {
+                if (!detailsVisible) {
+                  return Container();
+                }
                 return Container(
-                  margin:
-                      EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                  child: DetailsCard(
-                    place: place!,
-                    onDismiss: () {
-                      setState(() {
-                        place = null;
-                      });
-                    },
-                    onPay: () {
-                      this._showDialog();
-                    },
-                  ),
-                );
-              } else {
-                return Container();
+                    margin:
+                        EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                    child: Entry.offset(
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                      yOffset: -1000,
+                      visible: detailsVisible,
+                      child: DetailsCard(
+                        place: place,
+                        onDismiss: () {
+                          setState(() {
+                            detailsVisible = false;
+                          });
+                        },
+                        onPay: () {
+                          this._showDialog();
+                        },
+                      ),
+                    ),
+                  );
               }
-            }),
+            ),
           ],
         ));
   }
@@ -145,7 +155,9 @@ class _MainPageState extends State<MainPage> {
             title: "Регистрација",
             message: "Внесете регистрација",
             sendSMS: (message, recipient) {
-              context.read<PaymentBloc>().add(StartParking(place!, message, recipient));
+              context
+                  .read<PaymentBloc>()
+                  .add(StartParking(place!, message, recipient));
             },
           );
         });
