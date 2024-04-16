@@ -53,31 +53,42 @@ class DetailsCard extends StatelessWidget {
 
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            IconButton(onPressed: () {
-                              onDismiss();
-                            }, icon: Icon(Icons.close),),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ZoneLabel(text: "Зона"),
-                                ZoneHeading(text: place!.zone.toString()),
-                              ],
-                            ),
-
+                            ZoneLabel(text: "Зона"),
+                            ZoneHeading(text: place!.zone.toString()),
                           ],
                         ),
 
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+
+                    Column(
                       children: [
-                        PrimaryButtonWithIcon(icon: Icons.local_parking, text: "Започни паркинг", onPressed: onPay)
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            PrimaryButtonWithIcon(icon: Icons.local_parking, text: "Започни паркинг", onPressed: onPay)
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 5,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
-                    ),
+                    )
                   ],
                 ),
               )
