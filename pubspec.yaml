@@ -53,7 +53,6 @@ dependencies:
   # routing
   go_router: ^13.2.1
   #search bar
-  easy_search_bar: ^2.5.0
   # shared preferences
   shared_preferences: ^2.2.2
   # firebase
@@ -64,6 +63,7 @@ dependencies:
   telephony_sms: ^0.0.4
   # entry animations
   entry: ^1.0.0
+  material_floating_search_bar_2: ^0.5.0
 
 
 
