@@ -1,3 +1,4 @@
+import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -6,16 +7,12 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
-import 'package:parkingapp/core/service/prod/sms_prod.dart';
-import 'package:parkingapp/core/service/sms.dart';
 import 'package:parkingapp/features/details/presentation/details_card.dart';
 import 'package:parkingapp/features/parking_payment/presentation/bloc/payment_bloc.dart';
 import 'package:parkingapp/features/parking_payment/presentation/payment_status_button.dart';
 import '../../../core/domain/model/parking.dart';
 import '../../registration_dialog/dialog.dart';
-import 'package:parkingapp/features/parking_payment/presentation/stop_parking_button.dart';
-import '../../parking_payment/presentation/stop_parking_dialog.dart';
-import '../../parking_payment/service/payment_service.dart';
+import '../appbar/custom_app_bar.dart';
 import 'bloc/main_page_bloc.dart';
 
 class MainPage extends StatefulWidget {

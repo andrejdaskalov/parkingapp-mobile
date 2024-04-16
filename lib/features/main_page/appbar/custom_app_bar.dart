@@ -18,6 +18,8 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   // TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(height);
+
+
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -34,19 +36,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
       },
       child: BlocBuilder<MainPageBloc, MainPageState>(
         builder: (context, state) {
-          return EasySearchBar(
-              title: Text("ParkWise"),
-              isFloating:true,
-              elevation:20,
-              openOverlayOnSearch:true,
-              searchHintText:"Пребарај по име на паркинг",
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              onSearch: (value) => setState(() => searchValue = value),
-          suggestions: state.places
-              .where((element) => element.name.contains(searchValue))
-              .map((x) => x.name)
-          .toList());
+          return Container(
+
+            child: EasySearchBar(
+                title: Text("ParkWise"),
+                isFloating:true,
+                elevation:20,
+                openOverlayOnSearch:false,
+                searchHintText:"Пребарај по име на паркинг",
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                onSearch: (value) => setState(() => searchValue = value),
+            suggestions: state.places
+                .where((element) => element.name.contains(searchValue))
+                .map((x) => x.name)
+            .toList()),
+          );
         },
       ),
     );
