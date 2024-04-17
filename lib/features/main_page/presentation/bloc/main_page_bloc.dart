@@ -34,6 +34,6 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
 
   Future<void> _getPlaceDetails(SelectPlace event, Emitter<MainPageState> emit) async {
     emit(state.copyWith(selectedPlace: event.place));
-    emit(state.copyWith(status: Status.loaded, selectedPlace: null));
+    // emit(state.copyWith(status: Status.loaded, selectedPlace: null));
   }
 }

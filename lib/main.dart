@@ -15,6 +15,9 @@ import 'features/theme/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter's binding is initialized
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   String environment = appFlavor.toString();
   configureDependencies(environment);
   runApp(MyApp());
