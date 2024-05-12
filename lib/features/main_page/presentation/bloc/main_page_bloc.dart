@@ -10,6 +10,7 @@ import 'package:parkingapp/core/repository/impl/user_input_repository.dart';
 import '../../../../core/domain/model/parking.dart';
 
 part 'main_page_event.dart';
+
 part 'main_page_state.dart';
 
 @injectable
@@ -19,6 +20,8 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
 
   MainPageBloc(this._parkingRepository, this._userInputRepository) : super( MainPageState(status: Status.loading)){
     on<GetPlaces>(_getPlaces);
+
+    on<SelectPlace>(_getPlaceDetails);
   }
 
 
@@ -33,5 +36,10 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     } catch (e) {
       emit(state.copyWith(status: Status.error, error: e.toString()));
     }
+  }
+
+  Future<void> _getPlaceDetails(SelectPlace event, Emitter<MainPageState> emit) async {
+    emit(state.copyWith(selectedPlace: event.place));
+    // emit(state.copyWith(status: Status.loaded, selectedPlace: null));
   }
 }

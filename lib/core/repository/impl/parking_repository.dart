@@ -13,15 +13,15 @@ class ParkingRepository implements IParkingRepository {
   ParkingRepository(this._parkingApi);
 
   Future<List<ParkingPlace>> listParkings() async {
-    Future<List<ParkingPlace>> parkingPlaces = Future.value([]);
-
-    await _parkingApi.listParkings().then((parkingPlaceNetworkList) {
-      List<ParkingPlace> parkingPlaceList = parkingPlaceNetworkList.map((parkingPlaceNetwork) => ParkingPlace.fromNetwork(parkingPlaceNetwork)).toList();
-
-      parkingPlaces = Future.value(parkingPlaceList);
+    return _parkingApi.listParkings().then((parkingPlaceNetworkList) {
+      return parkingPlaceNetworkList.map((parkingPlaceNetwork) => ParkingPlace.fromNetwork(parkingPlaceNetwork)).toList();
     });
+  }
 
-    return Future.value([]);
+  Future<ParkingPlace> getParkingPlace(String documentId) async {
+    return _parkingApi.getParking(documentId).then((parkingPlaceNetwork) {
+      return ParkingPlace.fromNetwork(parkingPlaceNetwork);
+    });
   }
 
   //TODO vidi ova dali vaka treba

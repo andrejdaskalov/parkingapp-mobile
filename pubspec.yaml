@@ -52,11 +52,20 @@ dependencies:
   uuid: ^4.2.2
   # routing
   go_router: ^13.2.1
+  #search bar
+  # shared preferences
+  shared_preferences: ^2.2.2
+  # firebase
   firebase_core: ^2.27.0
   cloud_firestore: ^4.15.8
   firebase_auth: ^4.17.8
-
+  # sms
   telephony_sms: ^0.0.4
+  # entry animations
+  entry: ^1.0.0
+  material_floating_search_bar_2: ^0.5.0
+
+  fluttertoast: ^8.0.7
 
 
 

@@ -5,4 +5,8 @@ abstract class MainPageEvent {}
 
 final class GetPlaces extends MainPageEvent {}
 
-// TODO: Add more events
+final class SelectPlace extends MainPageEvent {
+  final ParkingPlace place;
+
+  SelectPlace(this.place);
+}
