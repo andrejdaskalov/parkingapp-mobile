@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
+import 'package:parkingapp/core/domain/model/parking.dart';
 import '../../../core/dependency_injection/injectable_config.dart';
 import '../presentation/bloc/main_page_bloc.dart';
 
 class CustomAppBar extends StatefulWidget {
   CustomAppBar({
     super.key,
+    required this.onParkingSelected,
   });
+  
+  Function(ParkingPlace) onParkingSelected;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
+
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -20,7 +25,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     context.read<MainPageBloc>().add(GetPlaces());
-    debugPrint("Bloc in search: ${context.read<MainPageBloc>().hashCode}");
     return BlocBuilder<MainPageBloc, MainPageState>(
       builder: (context, state) {
         return FloatingSearchBar(
@@ -46,29 +50,43 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   .where((e) => e.name.contains(controller.query))
                   .toList();
 
-              return ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
-                child: Container(
+              if (filteredPlaces.length == 0) {
+                return Container(
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.background,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: filteredPlaces
-                          .map((e) => ListTile(
-                        title: Text(e.name),
-                        onTap: () {
-                          context.read<MainPageBloc>().add(SelectPlace(e));
-                          controller.close();
-                        },
-                      ))
-                          .toList(),
+                  child: ListTile(
+                    title: Text("Не се пронајдени паркинзи со тоа пребарување"),
+                  )
+                );
+              } else {
+                return ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.background,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: filteredPlaces
+                            .map((e) => ListTile(
+                          title: Text(e.name),
+                          onTap: () {
+                            // context.read<MainPageBloc>().add(SelectPlace(e));
+                            widget.onParkingSelected(e);
+                            controller.close();
+                          },
+                        ))
+                            .toList(),
+                      ),
                     ),
                   ),
-                ),
-              );
+                );
+              }
             } else
               return Container();
           },

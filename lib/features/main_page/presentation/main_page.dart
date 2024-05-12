@@ -52,14 +52,10 @@ class _MainPageState extends State<MainPage> {
                   Flexible(
                     child: BlocBuilder<MainPageBloc, MainPageState>(
                       builder: (context, state) {
-                        debugPrint("State: ${state.selectedPlace}");
                         if (state.selectedPlace != null) {
                           place = state.selectedPlace;
                           detailsVisible = true;
                         }
-                        debugPrint("State: ${state.selectedPlace}");
-                        debugPrint("Bloc in main: ${context.read<MainPageBloc>().hashCode}");
-
 
                         var markers = <Marker>[];
                         var suggestions =
@@ -148,7 +144,12 @@ class _MainPageState extends State<MainPage> {
                 ),
               );
             }),
-            CustomAppBar(),
+            CustomAppBar(onParkingSelected: (place) {
+              setState(() {
+                this.place = place;
+                detailsVisible = true;
+              });
+            }),
           ],
         ),
       ),
