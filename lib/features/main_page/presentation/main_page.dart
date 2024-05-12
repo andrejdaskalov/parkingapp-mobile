@@ -152,7 +152,7 @@ class _MainPageState extends State<MainPage> {
         context: this.context,
         builder: (context) {
           return RegistrationDialog(
-            title: "Регистрација",
+            title: "Започни паркинг",
             message: "Внесете регистрација",
             sendSMS: (message, recipient) {
               context

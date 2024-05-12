@@ -60,6 +60,8 @@ dependencies:
   telephony_sms: ^0.0.4
   entry: ^1.0.0
 
+  fluttertoast: ^8.0.7
+
 
 
 dev_dependencies:
