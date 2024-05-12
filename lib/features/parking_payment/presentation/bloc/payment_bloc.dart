@@ -3,9 +3,10 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:parkingapp/core/domain/model/parking.dart';
 import 'package:parkingapp/core/domain/model/parking_payment.dart';
-import 'package:parkingapp/core/repository/parking_repository.dart';
 import 'package:parkingapp/core/service/sms.dart';
 
+import '../../../../core/repository/impl/parking_repository_prod.dart';
+import '../../../../core/repository/parking_repository.dart';
 import '../../service/payment_service.dart';
 
 part 'payment_event.dart';

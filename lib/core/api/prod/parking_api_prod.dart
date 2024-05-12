@@ -42,7 +42,7 @@ class ParkingApiProd implements ParkingApi {
     return userInputs.doc(documentId).get().then((value) {
       var data = value.data() as Map<String, dynamic>;
       data['document_id'] = value.id;
-
+      data['datetime'] = (data['datetime']).toDate();
       return UserInputNetwork.fromJson(data);
     });
   }
@@ -52,7 +52,7 @@ class ParkingApiProd implements ParkingApi {
     return userInputs.get().then((value) => value.docs.map((e) {
           var data = e.data() as Map<String, dynamic>;
           data['document_id'] = e.id;
-
+          data['datetime'] = (data['datetime']).toDate();
           return UserInputNetwork.fromJson(data);
         }).toList());
   }

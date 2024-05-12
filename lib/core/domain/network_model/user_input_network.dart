@@ -4,7 +4,7 @@ class UserInputNetwork extends Equatable {
   final String document_id;
   final double occupancy;
   final String parking_id;
-  final int datetime;
+  final DateTime datetime;
   final bool last_entry;
 
   UserInputNetwork(this.document_id, this.occupancy, this.parking_id, this.datetime, this.last_entry);

@@ -1,8 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:parkingapp/core/domain/model/user_input.dart';
-import 'package:parkingapp/core/repository/impl/parking_repository.dart';
+import 'package:parkingapp/core/repository/impl/parking_repository_prod.dart';
 
 import '../../api/parking_api.dart';
+import '../parking_repository.dart';
 import '../i_user_input_repository.dart';
 
 @injectable

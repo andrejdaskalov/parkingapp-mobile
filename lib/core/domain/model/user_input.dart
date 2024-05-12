@@ -8,7 +8,7 @@ class UserInput extends Equatable {
   final String id;
   final double occupancy;
   final ParkingPlace parkingPlace;
-  final int date;
+  final DateTime date;
   final bool  lastEntry;
 
   UserInput(this.id, this.occupancy, this.parkingPlace, this.date, this.lastEntry);
