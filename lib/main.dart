@@ -5,6 +5,7 @@ import 'package:parkingapp/features/navbar/navbar.dart';
 import 'package:parkingapp/features/main_page/presentation/main_page.dart';
 import 'package:parkingapp/features/parking_payment/presentation/bloc/payment_bloc.dart';
 import 'package:parkingapp/features/parking_payment/presentation/payment_status_screen.dart';
+import 'package:parkingapp/features/profile_page/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/dependency_injection/injectable_config.dart';
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
                     body: child,
                     bottomNavigationBar: NavBar(
                       onRouteChanged: (String route) {
-                        // context.goNamed(route); TODO: uncomment after giving valid routes
+                        context.go(route); // TODO: uncomment after giving valid routes
                       },
                     ),
                     extendBody: true,
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
                 routes: [
                   GoRoute(path: "/", builder: (context, state) => MainPage()),
                   GoRoute(path: "/payment-details", builder: (context, state) => ParkingPaymentDetails()),
+                  GoRoute(path: "/profile", builder: (context, state) => ProfilePage()),
                 ]),
 
         ]),

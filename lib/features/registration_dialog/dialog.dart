@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class RegistrationDialog extends StatefulWidget {
@@ -20,6 +21,12 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
   final TextEditingController _controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _loadRegistration();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: AlertDialog(
@@ -27,11 +34,14 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Text(widget.message),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(widget.message),
+              ),
               TextFormField(
                 controller: _controller,
                 decoration: InputDecoration(
-                  labelText: "XX0123YY",
+                  hintText: "XX0123YY",
                 ),
               ),
             ],
@@ -48,5 +58,13 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
         ],
       ),
     );
+  }
+
+  void _loadRegistration() async {
+    final prefs = await SharedPreferences.getInstance();
+    final registration = prefs.getString('registration');
+    if (registration != null) {
+      _controller.text = registration;
+    }
   }
 }
