@@ -42,22 +42,31 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 ),
               );
             } else if (state.status == Status.loaded) {
-              return Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.background,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: state.places
-                      .map((e) => ListTile(
-                            title: Text(e.name),
-                            onTap: () {
-                              context.read<MainPageBloc>().add(SelectPlace(e));
-                              controller.close();
-                            },
-                          ))
-                      .toList(),
+              var filteredPlaces = state.places
+                  .where((e) => e.name.contains(controller.query))
+                  .toList();
+
+              return ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.background,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: filteredPlaces
+                          .map((e) => ListTile(
+                        title: Text(e.name),
+                        onTap: () {
+                          context.read<MainPageBloc>().add(SelectPlace(e));
+                          controller.close();
+                        },
+                      ))
+                          .toList(),
+                    ),
+                  ),
                 ),
               );
             } else
@@ -70,7 +79,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
           accentColor: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.circular(10),
           hint: "Пребарај паркинг",
-
+          onQueryChanged: (query) {
+            setState(() {
+              searchValue = query;
+            });
+          },
         );
       },
     );
