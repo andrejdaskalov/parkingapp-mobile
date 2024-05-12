@@ -16,6 +16,9 @@ import 'features/theme/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter's binding is initialized
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   String environment = appFlavor.toString();
   configureDependencies(environment);
   runApp(MyApp());
@@ -33,7 +36,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<PaymentBloc>(),
+      create: (context) => getIt.get<PaymentBloc>(), // Provide the *same* PaymentBloc to the entire app
       child: MaterialApp.router(
               routerConfig: GoRouter(routes: [
             ShellRoute(
