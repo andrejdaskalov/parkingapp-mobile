@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:telephony_sms/telephony_sms.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 import 'package:injectable/injectable.dart';
 
 import '../sms.dart';
@@ -7,18 +7,14 @@ import '../sms.dart';
 @prod
 @Injectable(as: SMSService)
 class SMSProd implements SMSService {
-  final _telephonySMS = TelephonySMS();
 
-  Future<SMSStatus> sendSms(String message, String recipient) async {
-    await _telephonySMS.requestPermission();
-
-    await _telephonySMS.sendSMS(phone: recipient, message: message).then((value) {
-      return SMSStatus.sent;
-    }).catchError((error) {
-      return SMSStatus.error;
-    });
-    return SMSStatus.error;
-
+  Future<void> sendSms(String message, String recipient, Function(SMSStatus) onResult) async {
+    String _result = await sendSMS(recipients: [recipient], message: message, sendDirect: true);
+    if (_result == "OK") {
+      onResult(SMSStatus.sent);
+    } else {
+      onResult(SMSStatus.error);
+    }
   }
 
 }
