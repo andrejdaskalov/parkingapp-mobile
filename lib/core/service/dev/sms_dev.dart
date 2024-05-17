@@ -6,8 +6,8 @@ import '../sms.dart';
 @Injectable(as: SMSService)
 class SMSDev implements SMSService {
   @override
-  Future<SMSStatus> sendSms(String message, String recipient) async {
+  Future<void> sendSms(String message, String recipient, Function(SMSStatus) onResult) async {
     Future.delayed(Duration(seconds: 1));
-    return SMSStatus.sent;
+    onResult(SMSStatus.sent);
   }
 }

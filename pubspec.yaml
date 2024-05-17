@@ -60,7 +60,10 @@ dependencies:
   cloud_firestore: ^4.15.8
   firebase_auth: ^4.17.8
   # sms
-  telephony_sms: ^0.0.4
+  flutter_sms:
+    git:
+      url: https://github.com/fluttercommunity/flutter_sms.git
+      ref: master
   # entry animations
   entry: ^1.0.0
   material_floating_search_bar_2: ^0.5.0

@@ -25,14 +25,17 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   ) : super(PaymentState(status: ParkingStatus.loading)) {
     on<StartParking>((event, emit) async {
       emit(PaymentState(status: ParkingStatus.loading));
-      SMSStatus smsStatus = await _smsService.sendSms(
+      await _smsService.sendSms(
           event.message + " " + event.parkingPlace.zone.toString(),
-          event.recipient);
-      if (smsStatus == SMSStatus.error) {
-        emit(PaymentState(
-            status: ParkingStatus.error, error: "Грешка при стартување на паркингот"));
-        return;
-      }
+          event.recipient, (SMSStatus value) {
+            if (value == SMSStatus.error) {
+              emit(PaymentState(
+                  status: ParkingStatus.error, error: "Грешка при стартување на паркингот"));
+            } else {
+              emit(PaymentState(status: ParkingStatus.loaded));
+            }
+
+          });
       await _paymentService.setCurrentlyPayingParking(
           event.parkingPlace.id, event.startTime);
       await getDetails(event, emit);
@@ -40,14 +43,17 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     on<StopParking>((event, emit) async {
       emit(PaymentState(status: ParkingStatus.loading));
-      SMSStatus smsStatus = await _smsService.sendSms(
+      await _smsService.sendSms(
           "S",
-          event.recipient);
-      if (smsStatus == SMSStatus.error) {
-        emit(PaymentState(
-            status: ParkingStatus.error, error: "Грешка при стопирање на паркингот"));
-        return;
-      }
+          event.recipient, (SMSStatus value) {
+            if (value == SMSStatus.error) {
+              emit(PaymentState(
+                  status: ParkingStatus.error, error: "Грешка при стопирање на паркингот"));
+            } else {
+              emit(PaymentState(status: ParkingStatus.loaded));
+            }
+
+          });
       await _paymentService.clearCurrentlyPayingParking();
       emit(PaymentState(status: ParkingStatus.stopped));
       await getDetails(event, emit);
@@ -71,23 +77,23 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
     ParkingPlace parkingPlace = await _parkingRepository
         .getParkingPlace(parkingPaymentDetails.parkingPlaceId);
-    double cost = getCost(parkingPlace, parkingPaymentDetails);
+    int cost = getCost(parkingPlace, parkingPaymentDetails);
     emit(PaymentState(
         status: ParkingStatus.loaded,
         currentlyPayingParking: parkingPaymentDetails.parkingPlaceId,
         startTime: parkingPaymentDetails.startTime,
-        currentCost: cost,
+        currentCost: cost.toDouble(),
         parkingZone: parkingPlace.zone));
   }
 
-  double getCost(
+  int getCost(
       ParkingPlace parkingPlace, ParkingPaymentDetails parkingPaymentDetails) {
+    var duration = DateTime.now().difference(parkingPaymentDetails.startTime).inMinutes.toDouble() / 60.0;
+    duration = duration < 1 ? 1 : duration;
+
     return parkingPlace.pricePerHour != null
         ? parkingPlace.pricePerHour! *
-            (DateTime.now()
-                    .difference(parkingPaymentDetails.startTime)
-                    .inMinutes /
-                60)
+            duration.ceil()
         : 0;
   }
 }

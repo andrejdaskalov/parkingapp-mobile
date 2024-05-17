@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 
 abstract interface class SMSService {
-  Future<SMSStatus> sendSms(String message, String recipient) ;
+  Future<void> sendSms(String message, String recipient, Function(SMSStatus) onResult);
 }
 
 enum SMSStatus { sent, error }
