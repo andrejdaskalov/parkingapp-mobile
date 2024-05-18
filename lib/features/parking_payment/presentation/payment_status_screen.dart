@@ -59,7 +59,7 @@ class ParkingPaymentDetails extends StatelessWidget {
                       LargeBoldHeading(text: state.parkingZone ?? ''),
                     ],
                   ),
-                  SubtitleHeading(text: "Почеток: ${state.startTime?.hour}:${state.startTime?.minute}"),
+                  SubtitleHeading(text: "Почеток: ${state.startTime?.hour.toString().padLeft(2, '0')}:${state.startTime?.minute.toString().padLeft(2, '0')}"),
                   SubtitleHeading(
                       text:
                           "Време поминато: "
