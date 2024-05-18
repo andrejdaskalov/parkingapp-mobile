@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fuzzywuzzy/fuzzywuzzy.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:parkingapp/core/domain/model/parking.dart';
 import '../../../core/dependency_injection/injectable_config.dart';
@@ -10,12 +11,11 @@ class CustomAppBar extends StatefulWidget {
     super.key,
     required this.onParkingSelected,
   });
-  
+
   Function(ParkingPlace) onParkingSelected;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
-
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -46,24 +46,27 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 ),
               );
             } else if (state.status == Status.loaded) {
-              var filteredPlaces = state.places
-                  .where((e) => e.name.contains(controller.query))
-                  .toList();
+              final filteredPlaces = extractTop<ParkingPlace>(query: controller.query.toLowerCase(),
+                  choices: state.places,
+                  limit: 5,
+                  getter: (choice) => choice.name,
+              ).map((e) => e.choice).toList();
 
               if (filteredPlaces.length == 0) {
                 return Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text("Не се пронајдени паркинзи со тоа пребарување"),
-                  )
-                );
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.background,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ListTile(
+                      title:
+                          Text("Не се пронајдени паркинзи со тоа пребарување"),
+                    ));
               } else {
                 return ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
+                  constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.7),
                   child: Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
@@ -74,13 +77,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       child: Column(
                         children: filteredPlaces
                             .map((e) => ListTile(
-                          title: Text(e.name),
-                          onTap: () {
-                            // context.read<MainPageBloc>().add(SelectPlace(e));
-                            widget.onParkingSelected(e);
-                            controller.close();
-                          },
-                        ))
+                                  title: Text(e.name),
+                                  onTap: () {
+                                    // context.read<MainPageBloc>().add(SelectPlace(e));
+                                    widget.onParkingSelected(e);
+                                    controller.close();
+                                  },
+                                ))
                             .toList(),
                       ),
                     ),

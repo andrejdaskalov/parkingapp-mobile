@@ -41,14 +41,19 @@ class DetailsCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            TitleHeading(text: place!.name),
-                            BoldHeading(text: place!.address),
-                            SubtitleHeading(text: place!.type.name + " паркинг"),
-                          ],
+                        Flexible(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                TitleHeading(text: place!.name),
+                                BoldHeading(text: place!.address),
+                                SubtitleHeading(text: place!.type.name),
+                              ],
+                            ),
+                          ),
                         ),
 
                         Column(

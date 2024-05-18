@@ -50,8 +50,8 @@ class TitleHeading extends StatelessWidget {
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.start,
           color: Theme.of(context).colorScheme.onBackground,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis),
+          maxLines: 2,
+          overflow: TextOverflow.visible),
     );
   }
 }
