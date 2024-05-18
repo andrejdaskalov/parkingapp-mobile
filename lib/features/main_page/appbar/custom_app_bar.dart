@@ -48,7 +48,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             } else if (state.status == Status.loaded) {
               final filteredPlaces = extractTop<ParkingPlace>(query: controller.query.toLowerCase(),
                   choices: state.places,
-                  limit: 10,
+                  limit: 5,
                   getter: (choice) => choice.name,
               ).map((e) => e.choice).toList();
 
