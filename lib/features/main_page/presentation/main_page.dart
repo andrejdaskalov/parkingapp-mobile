@@ -6,16 +6,22 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/features/contribute/presentation/contribute_card.dart';
+import 'package:parkingapp/features/contribute/presentation/contribute_dialog.dart';
 import 'package:parkingapp/features/details/presentation/details_card.dart';
 import 'package:parkingapp/features/parking_payment/presentation/bloc/payment_bloc.dart';
 import 'package:parkingapp/features/parking_payment/presentation/payment_status_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/domain/model/parking.dart';
+import '../../../core/repository/parking_repository.dart';
 import '../../registration_dialog/dialog.dart';
 import '../appbar/custom_app_bar.dart';
 import 'bloc/main_page_bloc.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({super.key});
+  final ParkingRepository parkingRepository;
+
+  MainPage({required this.parkingRepository, Key? key}) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -150,6 +156,7 @@ class _MainPageState extends State<MainPage> {
                 detailsVisible = true;
               });
             }),
+            ContributeDetailsCard(parkingRepository: widget.parkingRepository),
           ],
         ),
       ),

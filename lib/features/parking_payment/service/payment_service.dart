@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:parkingapp/core/domain/model/parking_payment.dart';
 import 'package:parkingapp/core/service/shared_prefs_service.dart';
+import 'package:parkingapp/features/contribute/presentation/contribute_dialog.dart';
 
 @injectable
 class PaymentService {
@@ -22,6 +24,8 @@ class PaymentService {
   Future<void> setCurrentlyPayingParking(String parkingId, DateTime startDate) async {
     await _sharedPrefsService.setPreference(_parkingIdKey, parkingId);
     await _sharedPrefsService.setPreference(_startTimeKey, startDate.toIso8601String());
+
+    await _sharedPrefsService.setPreference("shouldContributeForParking", parkingId);
   }
 
   Future<void> clearCurrentlyPayingParking() async {

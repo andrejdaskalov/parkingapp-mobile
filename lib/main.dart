@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/dependency_injection/injectable_config.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'core/repository/parking_repository.dart';
 import 'firebase_options.dart';
 import 'features/theme/themes.dart';
 
@@ -21,11 +22,13 @@ void main() async {
   );
   String environment = appFlavor.toString();
   configureDependencies(environment);
-  runApp(MyApp());
+  runApp(MyApp(parkingRepository: getIt.get<ParkingRepository>()));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final ParkingRepository parkingRepository;
+
+  MyApp({required this.parkingRepository, Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -53,7 +56,7 @@ class _MyAppState extends State<MyApp> {
                   );
                 },
                 routes: [
-                  GoRoute(path: "/", builder: (context, state) => MainPage()),
+                  GoRoute(path: "/", builder: (context, state) => MainPage(parkingRepository: widget.parkingRepository)),
                   GoRoute(path: "/payment-details", builder: (context, state) => ParkingPaymentDetails()),
                   GoRoute(path: "/profile", builder: (context, state) => ProfilePage()),
                 ]),
