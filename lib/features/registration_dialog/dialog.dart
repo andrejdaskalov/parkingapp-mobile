@@ -52,7 +52,7 @@ class _RegistrationDialogState extends State<RegistrationDialog> {
             Navigator.of(context).pop();
           }, child: Text("Откажи")),
           TextButton(onPressed: () {
-            widget.sendSMS(_controller.text, "077700891");
+            widget.sendSMS(_controller.text, "144144");
             Navigator.of(context).pop();
           }, child: Text("Потврди")),
         ],
