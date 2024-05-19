@@ -6,6 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:parkingapp/core/dependency_injection/injectable_config.dart';
+import 'package:parkingapp/core/domain/model/availability.dart';
 import 'package:parkingapp/features/details/presentation/details_card.dart';
 import 'package:parkingapp/features/parking_payment/presentation/bloc/payment_bloc.dart';
 import 'package:parkingapp/features/parking_payment/presentation/payment_status_button.dart';
@@ -23,6 +24,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   ParkingPlace? place;
+  Availability? placeAvailability;
   bool detailsVisible = false;
 
   @override
@@ -52,11 +54,6 @@ class _MainPageState extends State<MainPage> {
                   Flexible(
                     child: BlocBuilder<MainPageBloc, MainPageState>(
                       builder: (context, state) {
-                        if (state.selectedPlace != null) {
-                          place = state.selectedPlace;
-                          detailsVisible = true;
-                        }
-
                         var markers = <Marker>[];
                         var suggestions =
                             <String>[]; // List to store suggestions
@@ -79,6 +76,7 @@ class _MainPageState extends State<MainPage> {
                                     onPressed: () {
                                       setState(() {
                                         place = e;
+                                        placeAvailability = state.availability;
                                         detailsVisible = true;
                                       });
                                     },
@@ -122,6 +120,7 @@ class _MainPageState extends State<MainPage> {
               if (!detailsVisible) {
                 return Container();
               }
+              var mainPageBloc = context.read<MainPageBloc>();
               return Container(
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).padding.top + 50),
@@ -132,6 +131,7 @@ class _MainPageState extends State<MainPage> {
                   visible: detailsVisible,
                   child: DetailsCard(
                     place: place,
+                    // availability: placeAvailability ?? Availability.empty(),
                     onDismiss: () {
                       setState(() {
                         detailsVisible = false;
@@ -140,6 +140,7 @@ class _MainPageState extends State<MainPage> {
                     onPay: () {
                       this._showDialog();
                     },
+                    bloc: mainPageBloc,
                   ),
                 ),
               );

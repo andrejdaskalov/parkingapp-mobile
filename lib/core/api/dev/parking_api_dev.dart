@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:parkingapp/core/domain/network_model/parking_place_network.dart';
@@ -90,6 +92,19 @@ class ParkingApiDev implements ParkingApi {
     );
   }
 
+  @override
+  Future<double> getUserInputsAverage(String documentId) {
+    return Future.value(0.69);
+  }
 
+  @override
+  Future<double> getUserInputsAverageToday(String documentId) {
+    return Future.value(0.42);
+  }
+
+  @override
+  Future<bool> checkForInputsToday(String documentId) {
+    return Random().nextBool() ? Future.value(true) : Future.value(false);
+  }
 
 }

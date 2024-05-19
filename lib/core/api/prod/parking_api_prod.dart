@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:parkingapp/core/api/parking_api.dart';
 import 'package:parkingapp/core/domain/model/parking.dart';
@@ -11,6 +12,7 @@ import '../../domain/network_model/parking_place_network.dart';
 class ParkingApiProd implements ParkingApi {
   FirebaseFirestore instance = FirebaseFirestore.instance;
   CollectionReference parkingPlaces = FirebaseFirestore.instance.collection('parkings');
+  CollectionReference userInputs = FirebaseFirestore.instance.collection('user_input');
 
   @override
   Future<List<ParkingPlaceNetwork>> listParkings() {
@@ -29,6 +31,36 @@ class ParkingApiProd implements ParkingApi {
       data['document_id'] = value.id;
 
       return ParkingPlaceNetwork.fromJson(data);
+    });
+  }
+
+  @override
+  Future<double> getUserInputsAverage(String documentId) async {
+    return await userInputs
+        .where('parking_id', isEqualTo: documentId)
+        .aggregate(average('occupancy'))
+        .get().then((value) {
+          return value.getAverage('occupancy') ?? 0.0;
+    });
+  }
+
+  @override
+  Future<double> getUserInputsAverageToday(String documentId) async {
+    return await userInputs
+        .where('parking_id', isEqualTo: documentId)
+        .where('time', isGreaterThanOrEqualTo: DateTime.now().subtract(Duration(days: 1)))
+        .aggregate(average('occupancy'))
+        .get().then((value) {
+      return value.getAverage('occupancy') ?? 0.0;
+    });
+  }
+
+  Future<bool> checkForInputsToday(String documentId) async {
+    return await userInputs
+        .where('parking_id', isEqualTo: documentId)
+        .where('time', isGreaterThanOrEqualTo: DateTime.now().subtract(Duration(days: 1)))
+        .get().then((value) {
+      return value.docs.isNotEmpty;
     });
   }
 

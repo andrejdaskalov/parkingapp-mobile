@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:parkingapp/core/repository/parking_repository.dart';
 
+import '../../../../core/domain/model/availability.dart';
 import '../../../../core/domain/model/parking.dart';
 
 part 'main_page_event.dart';
@@ -34,7 +35,7 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   }
 
   Future<void> _getPlaceDetails(SelectPlace event, Emitter<MainPageState> emit) async {
-    emit(state.copyWith(selectedPlace: event.place, places: null));
-    // emit(state.copyWith(status: Status.loaded, selectedPlace: null));
+    Availability availability = await _parkingRepository.getUserInputsAverage(event.place.id);
+    emit(state.copyWith(selectedPlace: event.place, places: null, availability: availability));
   }
 }
