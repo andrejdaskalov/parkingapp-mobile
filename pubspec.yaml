@@ -70,8 +70,23 @@ dependencies:
 
   fluttertoast: ^8.0.7
   fuzzywuzzy: ^1.1.6
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.10
 
 
+flutter_launcher_icons:
+  image_path: "lib/icons/icon.png"
+  android: true
+  ios: true
+
+flutter_native_splash:
+  color: "#2E3F4F"
+  image: "lib/icons/icon.png"
+  android: true
+  ios: true
+  android_12:
+    color: "#2E3F4F"
+    image: "lib/icons/icon.png"
 
 dev_dependencies:
   # add the generator to your dev_dependencies
