@@ -1,10 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:parkingapp/core/domain/model/parking.dart';
 import 'package:parkingapp/core/domain/model/parking_payment.dart';
 import 'package:parkingapp/core/repository/parking_repository.dart';
 import 'package:parkingapp/core/service/sms.dart';
+import 'package:parkingapp/features/main_page/presentation/bloc/main_page_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../service/payment_service.dart';
 
@@ -63,6 +66,24 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       emit(PaymentState(status: ParkingStatus.loading));
       await getDetails(event, emit);
     });
+
+    on<UpdateUserLocationP>((event, emit) async {
+      emit(PaymentState(status: ParkingStatus.loaded, userPosition: event.position));
+    });
+  }
+
+  Future<Position> _getCurrentLocation(event, emit) async {
+    PermissionStatus permissionStatus = await Permission.location.request();
+
+    if (permissionStatus.isGranted) {
+      return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+    } else {
+      // Handle the case when the user denies the permission
+      print('Location permission is denied');
+      return Future.error('Location permission is denied');
+    }
   }
 
   Future<void> getDetails(event, emit) async {

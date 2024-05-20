@@ -5,20 +5,23 @@ final class MainPageState extends Equatable{
   final List<ParkingPlace> places;
   final String error;
   final ParkingPlace? selectedPlace;
+  final Position? userPosition;
 
-  const MainPageState({required this.status, this.places = const [], this.error = '', this.selectedPlace,});
+  const MainPageState({required this.status, this.places = const [], this.error = '', this.selectedPlace, this.userPosition});
 
   MainPageState copyWith({
     Status? status,
     List<ParkingPlace>? places,
     String? error,
     ParkingPlace? selectedPlace,
+    Position? userPosition,
   }) {
     return MainPageState(
       status: status ?? this.status,
       places: places ?? this.places,
       error: error ?? this.error,
       selectedPlace: selectedPlace ?? this.selectedPlace,
+      userPosition: userPosition ?? this.userPosition,
     );
   }
 

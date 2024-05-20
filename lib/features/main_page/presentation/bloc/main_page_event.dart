@@ -10,3 +10,9 @@ final class SelectPlace extends MainPageEvent {
 
   SelectPlace(this.place);
 }
+
+final class UpdateUserLocation extends MainPageEvent {
+  final Position position;
+
+  UpdateUserLocation(this.position);
+}

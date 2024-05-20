@@ -71,6 +71,10 @@ dependencies:
   fluttertoast: ^8.0.7
   fuzzywuzzy: ^1.1.6
 
+  geolocator: ^8.0.1
+
+  permission_handler: ^10.2.0
+
 
 
 dev_dependencies:

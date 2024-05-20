@@ -8,6 +8,8 @@ import 'package:parkingapp/features/parking_payment/presentation/payment_status_
 import 'package:parkingapp/features/profile_page/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:parkingapp/features/main_page/presentation/bloc/main_page_bloc.dart';
+
 import 'core/dependency_injection/injectable_config.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,8 +40,20 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt.get<PaymentBloc>(), // Provide the *same* PaymentBloc to the entire app
+    return MultiBlocProvider(
+      // create: (context) => getIt.get<PaymentBloc>(), // Provide the *same* PaymentBloc to the entire app
+      providers: [
+        BlocProvider<PaymentBloc>(
+          create: (context) => getIt.get<PaymentBloc>(),
+        ),
+        BlocProvider<MainPageBloc>(
+          create: (context) {
+            var instance = getIt.get<MainPageBloc>();
+            instance.add(GetPlaces());
+            return instance;
+          },
+        ),
+      ],
       child: MaterialApp.router(
               routerConfig: GoRouter(routes: [
             ShellRoute(
@@ -51,6 +65,7 @@ class _MyAppState extends State<MyApp> {
                       onRouteChanged: (String route) {
                         context.go(route); // TODO: uncomment after giving valid routes
                       },
+                      mainPageBloc: context.read<MainPageBloc>(),
                     ),
                     extendBody: true,
                   );

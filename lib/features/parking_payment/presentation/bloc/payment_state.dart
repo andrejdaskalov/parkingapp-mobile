@@ -7,6 +7,7 @@ final class PaymentState {
   final DateTime? startTime;
   final double? currentCost;
   final String? parkingZone;
+  final Position? userPosition;
 
   PaymentState(
       {required this.status,
@@ -14,7 +15,8 @@ final class PaymentState {
       this.error,
       this.startTime,
       this.currentCost,
-      this.parkingZone});
+      this.parkingZone,
+      this.userPosition});
 }
 
 enum ParkingStatus {

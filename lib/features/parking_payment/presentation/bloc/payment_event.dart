@@ -22,3 +22,9 @@ class StopParking extends PaymentEvent {
 class GetParkingDetails extends PaymentEvent {
   GetParkingDetails();
 }
+
+class UpdateUserLocationP extends PaymentEvent {
+  final Position position;
+
+  UpdateUserLocationP(this.position);
+}

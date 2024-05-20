@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:parkingapp/core/repository/parking_repository.dart';
@@ -22,6 +23,8 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     on<GetPlaces>(_getPlaces);
 
     on<SelectPlace>(_getPlaceDetails);
+
+    on<UpdateUserLocation>(_updateUserLocation);
   }
 
   Future<void> _getPlaces(GetPlaces event, Emitter<MainPageState> emit) async {
@@ -36,5 +39,10 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   Future<void> _getPlaceDetails(SelectPlace event, Emitter<MainPageState> emit) async {
     emit(state.copyWith(selectedPlace: event.place, places: null));
     // emit(state.copyWith(status: Status.loaded, selectedPlace: null));
+  }
+
+  Future<void> _updateUserLocation(UpdateUserLocation event, Emitter<MainPageState> emit) async {
+    // emit(state.copyWith(userLocation: event.position));
+    emit(MainPageState(status: state.status, userPosition: event.position, places: state.places));
   }
 }
