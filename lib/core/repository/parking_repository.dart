@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:parkingapp/core/domain/model/availability.dart';
 
 import '../api/parking_api.dart';
 import '../domain/model/parking.dart';
@@ -19,5 +20,15 @@ class ParkingRepository {
     return _parkingApi.getParking(documentId).then((parkingPlaceNetwork) {
       return ParkingPlace.fromNetwork(parkingPlaceNetwork);
     });
+  }
+
+  Future<Availability> getUserInputsAverage(String documentId) async {
+    bool hasInputs = await _parkingApi.checkForInputsToday(documentId);
+    double averageOccupancy = hasInputs ?
+       await _parkingApi.getUserInputsAverageToday(documentId)
+    :
+       await _parkingApi.getUserInputsAverage(documentId);
+
+    return Availability(parkingId: documentId, averageOccupancy: averageOccupancy, hasEntriesToday: hasInputs);
   }
 }
