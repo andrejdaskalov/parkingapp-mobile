@@ -59,6 +59,7 @@ class _ContributeDetailsCardState extends State<ContributeDetailsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final paymentBloc = context.read<PaymentBloc>();
     if (!contributeVisible || place == null) {
       return Container();
     }
@@ -74,7 +75,7 @@ class _ContributeDetailsCardState extends State<ContributeDetailsCard> {
           key: Key(place!.id),
           direction: DismissDirection.up,
           onDismissed: (direction) {
-            _clearContributeForParking();
+            _onContribute();
           },
           child: Container(
             margin: EdgeInsets.all(10),
@@ -124,28 +125,32 @@ class _ContributeDetailsCardState extends State<ContributeDetailsCard> {
                               style: ElevatedButton.styleFrom(primary: Colors.green),
                               child: Text(""),
                               onPressed: () {
-                                _clearContributeForParking();
+                                paymentBloc.add(ContributeUserInput(place!.id, 0));
+                                _onContribute();
                               },
                             ),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(primary: Colors.lightGreen),
                               child: Text(""),
                               onPressed: () {
-                                _clearContributeForParking();
+                                paymentBloc.add(ContributeUserInput(place!.id, 0.25));
+                                _onContribute();
                               },
                             ),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(primary: Colors.orange),
                               child: Text(""),
                               onPressed: () {
-                                _clearContributeForParking();
+                                paymentBloc.add(ContributeUserInput(place!.id, 0.75));
+                                _onContribute();
                               },
                             ),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(primary: Colors.red),
                               child: Text(""),
                               onPressed: () {
-                                _clearContributeForParking();
+                                paymentBloc.add(ContributeUserInput(place!.id, 1));
+                                _onContribute();
                               },
                             ),
                           ],
@@ -184,9 +189,10 @@ class _ContributeDetailsCardState extends State<ContributeDetailsCard> {
     );
   }
 
-  void _clearContributeForParking() async {
+  void _onContribute() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('shouldContributeForParking');
+
 
     setState(() {
       this.contributeVisible = false;

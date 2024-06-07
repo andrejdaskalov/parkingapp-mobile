@@ -70,6 +70,12 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     on<UpdateUserLocationP>((event, emit) async {
       emit(PaymentState(status: ParkingStatus.loaded, userPosition: event.position));
     });
+
+    on<ContributeUserInput>((event, emit) async {
+      emit(PaymentState(status: ParkingStatus.loading));
+      await _parkingRepository.addParkingInput(event.parkingId, event.input);
+      emit(PaymentState(status: ParkingStatus.loaded));
+    });
   }
 
   Future<Position> _getCurrentLocation(event, emit) async {
