@@ -15,6 +15,6 @@ class NavbarItem {
 final List<NavbarItem> navbarItems = [
   NavbarItem(title: 'Map', icon: Icons.map_outlined, route: '/'),
   NavbarItem(title: 'Profile', icon: Icons.badge_outlined, route: '/profile'),
+  // NavbarItem(title: 'Contribute', icon: Icons.add_circle_outline, route: '/contrib-id'),
   NavbarItem(title: 'My Location', icon: Icons.edit_location_outlined, route: '/'),
-  // NavbarItem(title: 'Contribute', icon: Icons.edit_location_outlined, route: '/'),
 ];

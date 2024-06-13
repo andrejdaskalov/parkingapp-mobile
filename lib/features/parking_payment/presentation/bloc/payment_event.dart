@@ -28,10 +28,3 @@ class UpdateUserLocationP extends PaymentEvent {
 
   UpdateUserLocationP(this.position);
 }
-
-class ContributeUserInput extends PaymentEvent {
-  final String parkingId;
-  final double input;
-
-  ContributeUserInput(this.parkingId, this.input);
-}

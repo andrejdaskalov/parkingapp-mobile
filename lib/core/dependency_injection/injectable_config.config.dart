@@ -11,10 +11,11 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import '../../features/main_page/presentation/bloc/main_page_bloc.dart' as _i11;
+import '../../features/contribute/bloc/contribute_bloc.dart' as _i11;
+import '../../features/main_page/presentation/bloc/main_page_bloc.dart' as _i12;
 import '../../features/parking_payment/presentation/bloc/payment_bloc.dart'
-    as _i13;
-import '../../features/parking_payment/service/payment_service.dart' as _i12;
+    as _i14;
+import '../../features/parking_payment/service/payment_service.dart' as _i13;
 import '../api/dev/parking_api_dev.dart' as _i4;
 import '../api/parking_api.dart' as _i3;
 import '../api/prod/parking_api_prod.dart' as _i5;
@@ -57,12 +58,14 @@ extension GetItInjectableX on _i1.GetIt {
       registerFor: {_prod},
     );
     gh.factory<_i10.SharedPrefsService>(() => _i10.SharedPrefsService());
-    gh.factory<_i11.MainPageBloc>(
-        () => _i11.MainPageBloc(gh<_i6.ParkingRepository>()));
-    gh.factory<_i12.PaymentService>(
-        () => _i12.PaymentService(gh<_i10.SharedPrefsService>()));
-    gh.factory<_i13.PaymentBloc>(() => _i13.PaymentBloc(
-          gh<_i12.PaymentService>(),
+    gh.factory<_i11.ContributeBloc>(
+        () => _i11.ContributeBloc(gh<_i6.ParkingRepository>()));
+    gh.factory<_i12.MainPageBloc>(
+        () => _i12.MainPageBloc(gh<_i6.ParkingRepository>()));
+    gh.factory<_i13.PaymentService>(
+        () => _i13.PaymentService(gh<_i10.SharedPrefsService>()));
+    gh.factory<_i14.PaymentBloc>(() => _i14.PaymentBloc(
+          gh<_i13.PaymentService>(),
           gh<_i6.ParkingRepository>(),
           gh<_i7.SMSService>(),
         ));

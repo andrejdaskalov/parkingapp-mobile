@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:parkingapp/core/domain/model/parking_payment.dart';
 import 'package:parkingapp/core/service/shared_prefs_service.dart';
-import 'package:parkingapp/features/contribute/presentation/contribute_dialog.dart';
 
 @injectable
 class PaymentService {

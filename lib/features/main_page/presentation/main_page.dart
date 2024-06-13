@@ -22,9 +22,8 @@ import '../appbar/custom_app_bar.dart';
 import 'bloc/main_page_bloc.dart';
 
 class MainPage extends StatefulWidget {
-  final ParkingRepository parkingRepository;
-
-  MainPage({required this.parkingRepository, Key? key}) : super(key: key);
+  final String? contributePlace;
+  MainPage({Key? key, this.contributePlace}) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -36,21 +35,11 @@ class _MainPageState extends State<MainPage> {
   bool detailsVisible = false;
   Position? userPosition;
 
+  bool contributeVisible = false;
+  String? contributePlace;
+
   late StreamSubscription<PaymentState> _paymentBlocSubscription;
 
-  Future<Position> _getCurrentLocation() async {
-    PermissionStatus permissionStatus = await Permission.location.request();
-
-    if (permissionStatus.isGranted) {
-      return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-    } else {
-      // Handle the case when the user denies the permission
-      print('Location permission is denied');
-      return Future.error('Location permission is denied');
-    }
-  }
 
   @override
   void initState() {
@@ -75,6 +64,12 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.contributePlace != null) {
+      setState(() {
+        contributeVisible = true;
+        contributePlace = widget.contributePlace;
+      });
+    }
     return Scaffold(
       floatingActionButton: GestureDetector(
         onTap: () {
@@ -164,8 +159,7 @@ class _MainPageState extends State<MainPage> {
                         }
                         return FlutterMap(
                           options: MapOptions(
-                            initialCenter: LatLng(41.99646, 21.43141),
-                            //TODO: change to user location
+                            initialCenter: userLocation ?? LatLng(41.99646, 21.43141),
                             initialZoom: 13,
                             interactionOptions: InteractionOptions(
                               enableMultiFingerGestureRace: true,
@@ -218,13 +212,37 @@ class _MainPageState extends State<MainPage> {
                 ),
               );
             }),
+
+            // contribute card builder
+            Builder(builder: (context) {
+              if (!contributeVisible || contributePlace == null) {
+                return Container();
+              }
+              return Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top + 50),
+                child: Entry.offset(
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                  yOffset: -1000,
+                  visible: contributeVisible,
+                  child: ContributeDetailsCard(
+                    placeId: contributePlace!,
+                    onDismiss: () {
+                      setState(() {
+                        contributeVisible = false;
+                      });
+                    },
+                  ),
+                ),
+              );
+            }),
             CustomAppBar(onParkingSelected: (place) {
               setState(() {
                 this.place = place;
                 detailsVisible = true;
               });
             }),
-            ContributeDetailsCard(parkingRepository: widget.parkingRepository),
           ],
         ),
       ),

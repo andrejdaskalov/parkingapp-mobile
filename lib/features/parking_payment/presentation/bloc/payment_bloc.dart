@@ -57,9 +57,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             }
 
           });
+      final currentlyPayingParking = await _paymentService.getCurrentlyPayingParking();
       await _paymentService.clearCurrentlyPayingParking();
-      emit(PaymentState(status: ParkingStatus.stopped));
-      await getDetails(event, emit);
+      // await getDetails(event, emit);
+      emit(PaymentState(status: ParkingStatus.stopped, currentlyPayingParking: currentlyPayingParking?.parkingPlaceId));
     });
 
     on<GetParkingDetails>((event, emit) async {
@@ -69,12 +70,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     on<UpdateUserLocationP>((event, emit) async {
       emit(PaymentState(status: ParkingStatus.loaded, userPosition: event.position));
-    });
-
-    on<ContributeUserInput>((event, emit) async {
-      emit(PaymentState(status: ParkingStatus.loading));
-      await _parkingRepository.addParkingInput(event.parkingId, event.input);
-      emit(PaymentState(status: ParkingStatus.loaded));
     });
   }
 
