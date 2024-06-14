@@ -31,4 +31,8 @@ class ParkingRepository {
 
     return Availability(parkingId: documentId, averageOccupancy: averageOccupancy, hasEntriesToday: hasInputs);
   }
+
+  Future<void> addParkingInput(String parkingId, double input) async {
+    return await _parkingApi.addParkingInput(parkingId, input);
+  }
 }

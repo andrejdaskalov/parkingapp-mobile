@@ -8,4 +8,5 @@ abstract interface class ParkingApi {
   Future<double> getUserInputsAverage(String documentId);
   Future<double> getUserInputsAverageToday(String documentId);
   Future<bool> checkForInputsToday(String documentId);
+  Future<void> addParkingInput(String parkingId, double input);
 }

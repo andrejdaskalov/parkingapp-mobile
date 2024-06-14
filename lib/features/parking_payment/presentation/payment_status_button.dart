@@ -16,10 +16,10 @@ class _PaymentStatusButtonState extends State<PaymentStatusButton> {
     return BlocBuilder<PaymentBloc, PaymentState>(
       builder: (context, state) {
         if (state.status == ParkingStatus.loading) {
-          return const CircularProgressIndicator();
+          return Container(height: 120, width: 100, child: const CircularProgressIndicator());
         }
-        if (state.currentlyPayingParking == null) {
-          return Container();
+        if (state.currentlyPayingParking == null || state.status == ParkingStatus.stopped) {
+          return Container(height: 0, width: 0,);
         }
         return Container(
           padding: const EdgeInsets.all(8.0),

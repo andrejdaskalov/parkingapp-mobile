@@ -45,6 +45,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider<PaymentBloc>(
           create: (context) => getIt.get<PaymentBloc>(),
+          lazy: false,
         ),
         BlocProvider<MainPageBloc>(
           create: (context) {
@@ -63,7 +64,8 @@ class _MyAppState extends State<MyApp> {
                     body: child,
                     bottomNavigationBar: NavBar(
                       onRouteChanged: (String route) {
-                        context.go(route); // TODO: uncomment after giving valid routes
+                        debugPrint("Route changed to $route");
+                        context.go(route);
                       },
                       mainPageBloc: context.read<MainPageBloc>(),
                     ),
@@ -71,7 +73,8 @@ class _MyAppState extends State<MyApp> {
                   );
                 },
                 routes: [
-                  GoRoute(path: "/", builder: (context, state) => MainPage(parkingRepository: widget.parkingRepository)),
+                  GoRoute(path: "/", builder: (context, state) => MainPage()),
+                  GoRoute(name: "contribute", path: "/contribute/:contribId", builder: (context, state) => MainPage(contributePlace: state.pathParameters['contribId'],)),
                   GoRoute(path: "/payment-details", builder: (context, state) => ParkingPaymentDetails()),
                   GoRoute(path: "/profile", builder: (context, state) => ProfilePage()),
                 ]),

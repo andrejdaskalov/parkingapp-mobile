@@ -107,4 +107,9 @@ class ParkingApiDev implements ParkingApi {
     return Random().nextBool() ? Future.value(true) : Future.value(false);
   }
 
+  @override
+  Future<void> addParkingInput(String parkingId, double input) {
+    return Future.delayed(const Duration(milliseconds: 500));
+  }
+
 }

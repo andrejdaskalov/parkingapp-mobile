@@ -64,4 +64,19 @@ class ParkingApiProd implements ParkingApi {
     });
   }
 
+  @override
+  Future<void> addParkingInput(String parkingId, double input) async {
+    await userInputs.where('last_entry', isEqualTo: true).get().then((value) {
+      value.docs.forEach((element) {
+        userInputs.doc(element.id).update({'last_entry': false});
+      });
+    });
+    await userInputs.add({
+      'parking_id': parkingId,
+      'occupancy': input,
+      'time': DateTime.now(),
+      'last_entry': true
+    });
+  }
+
 }
