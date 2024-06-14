@@ -45,6 +45,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider<PaymentBloc>(
           create: (context) => getIt.get<PaymentBloc>(),
+          lazy: false,
         ),
         BlocProvider<MainPageBloc>(
           create: (context) {
@@ -63,6 +64,7 @@ class _MyAppState extends State<MyApp> {
                     body: child,
                     bottomNavigationBar: NavBar(
                       onRouteChanged: (String route) {
+                        debugPrint("Route changed to $route");
                         context.go(route);
                       },
                       mainPageBloc: context.read<MainPageBloc>(),

@@ -30,13 +30,13 @@ class _ContributeDetailsCardState extends State<ContributeDetailsCard> {
         }
         return bloc;
       },
-      child: Container(
-        child: Dismissible(
-          key: UniqueKey(),
-          direction: DismissDirection.up,
-          onDismissed: (direction) {
-            widget.onDismiss();
-          },
+      child: Dismissible(
+        key: UniqueKey(),
+        direction: DismissDirection.up,
+        onDismissed: (direction) {
+          widget.onDismiss();
+        },
+        child: Container(
           child: BlocListener<ContributeBloc, ContributeState>(
             listener: (context, state) {
               if (state.status == ContributionStatus.submitted) {

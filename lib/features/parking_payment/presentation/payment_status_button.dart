@@ -12,14 +12,14 @@ class PaymentStatusButton extends StatefulWidget {
 class _PaymentStatusButtonState extends State<PaymentStatusButton> {
   @override
   Widget build(BuildContext context) {
-    // context.read<PaymentBloc>().add(GetParkingDetails());
+    context.read<PaymentBloc>().add(GetParkingDetails());
     return BlocBuilder<PaymentBloc, PaymentState>(
       builder: (context, state) {
         if (state.status == ParkingStatus.loading) {
-          return const CircularProgressIndicator();
+          return Container(height: 120, width: 100, child: const CircularProgressIndicator());
         }
         if (state.currentlyPayingParking == null || state.status == ParkingStatus.stopped) {
-          return Container();
+          return Container(height: 0, width: 0,);
         }
         return Container(
           padding: const EdgeInsets.all(8.0),
