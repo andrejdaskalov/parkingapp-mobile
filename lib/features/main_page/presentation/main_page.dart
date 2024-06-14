@@ -193,7 +193,6 @@ class _MainPageState extends State<MainPage> {
                       onDismiss: () {
                         setState(() {
                           detailsVisible = false;
-                          contributePlace = null;
                         });
                       },
                       onPay: () {
@@ -223,7 +222,9 @@ class _MainPageState extends State<MainPage> {
                       onDismiss: () {
                         setState(() {
                           contributeVisible = false;
+                          contributePlace = null;
                         });
+                        context.go('/');
                       },
                     ),
                   ),
